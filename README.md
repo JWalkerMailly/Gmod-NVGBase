@@ -32,6 +32,17 @@ Controls are defined with clientside ConVars. Users can define their own in the 
 | NVGBASE_INPUT | 24 (KEY_N) | 1 to 159 | Key used to toggle goggle. Refer to this page for the values: https://wiki.facepunch.com/gmod/Enums/KEY |
 | NVGBASE_CYCLE | 23 (KEY_M) | 1 to 159 | Key used to switch goggle. Refer to this page for the values: https://wiki.facepunch.com/gmod/Enums/KEY |
 
+### Console Commands
+It is possible for the server admins to dictate which loadout should be used on the fly, and set rules regarding whether or not a player can choose its own NVG loadout. Here is a list of all console commands available.
+
+| Command | Values | Description |
+|---|---|---|
+| NVGBASE_ALLOWPLAYERLOADOUT | 0 or 1 | **admin** Determine if players can choose their own NVG loadout. |
+| NVGBASE_DEFAULTLOADOUT | String, name of loadout | **admin** Set default loadout when none is set. To reset, use an empty string. |
+| NVGBASE_GAMEMODELOADOUT | String, name of loadout | **admin** Set loadout on all players. This will also change the default loadout. |
+| NVGBASE_PLAYERLOADOUT | String, name of loadout | Choose loadout. It is possible to print a list of available loadouts using the command NVGBASE_SHOWLOADOUTS. |
+| NVGBASE_SHOWLOADOUTS | none | Print a list of available loadouts to console. |
+
 ## Loadouts
 Loadout configurations need to be defined inside a lua file inside a folder named *nvgloadouts*. If you are creating an addon, this should be your folder structure:
 ```
@@ -169,17 +180,6 @@ TEMPLATE.Goggles[2] = {}
 -- Register the loadout.
 NVGBASE.Register("loadout_name", TEMPLATE);
 ```
-
-### Console Commands
-It is possible for the server admins to dictate which loadout should be used on the fly, and set rules regarding whether or not a player can choose its own NVG loadout. Here is a list of all console commands available.
-
-| Command | Values | Description |
-|---|---|---|
-| NVGBASE_ALLOWPLAYERLOADOUT | 0 or 1 | **admin** Determine if players can choose their own NVG loadout. |
-| NVGBASE_DEFAULTLOADOUT | String, name of loadout | **admin** Set default loadout when none is set. To reset, use an empty string. |
-| NVGBASE_GAMEMODELOADOUT | String, name of loadout | **admin** Set loadout on all players. This will also change the default loadout. |
-| NVGBASE_PLAYERLOADOUT | String, name of loadout | Choose loadout. It is possible to print a list of available loadouts using the command NVGBASE_SHOWLOADOUTS. |
-| NVGBASE_SHOWLOADOUTS | none | Print a list of available loadouts to console. |
 
 ## Whitelist
 The playermodel whitelist can be turned on or off globally by an administrator of the server. To do so, use the following command (off by default):
