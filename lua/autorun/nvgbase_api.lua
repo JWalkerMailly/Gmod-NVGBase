@@ -1,8 +1,20 @@
 
+local _player = FindMetaTable("Player");
+local entity = FindMetaTable("Entity");
+local color  = FindMetaTable("Color");
+
 -- Server side whitelist convar.
 if (SERVER) then
 	CreateConVar("NVGBASE_WHITELIST", "1", FCVAR_ARCHIVE);
 end
+
+concommand.Add("NVGBASE_FORCELOADOUT", function(ply, cmd, args)
+
+	if (args[1] == nil) then return; end
+	for k,v in pairs(player.GetAll()) do
+		v:NVGBASE_SetLoadout(args[1]);
+	end
+end, nil, nil, FCVAR_CHEAT);
 
 --!
 --! @brief      Utility function to determine if player model whitelisting is on.
@@ -21,10 +33,6 @@ CreateClientConVar("NVGBASE_CYCLE", "23", true, true, "Which key to cycle goggle
 
 -- Setup toggle and cycle commands for goggles.
 CreateClientConVar("NVGBASE_TOGGLE", "0", false, true);
-
-local player = FindMetaTable("Player");
-local entity = FindMetaTable("Entity");
-local color  = FindMetaTable("Color");
 
 --!
 --! @brief      Utility function to lerp a color towards another color table.
@@ -51,7 +59,7 @@ end
 --!
 --! @return     If entity is visible.
 --!
-function player:NVGBASE_IsBoundingBoxVisible(target, maxDistance)
+function _player:NVGBASE_IsBoundingBoxVisible(target, maxDistance)
 
 	local trace = util.TraceHull({
 		start = self:EyePos(),
@@ -103,7 +111,7 @@ end
 --! @param      on             Bodygroup value for on
 --! @param      off            Bodygroup value for off
 --!
-function player:NVGBASE_AnimGoggle(gogglesActive, anim, bodygroup, on, off)
+function _player:NVGBASE_AnimGoggle(gogglesActive, anim, bodygroup, on, off)
 
 	if (IsValid(self)) then
 		if (bodygroup != nil) then self:SetBodygroup(bodygroup, !gogglesActive && on || off); end
@@ -114,14 +122,14 @@ end
 --!
 --! @return     Returns the player's toggle key.
 --!
-function player:NVGBASE_GetGoggleToggleKey()
+function _player:NVGBASE_GetGoggleToggleKey()
 	return self:GetInfoNum("NVGBASE_INPUT", 24);
 end
 
 --!
 --! @return     Returns the player's cycle mode key.
 --!
-function player:NVGBASE_GetGoggleSwitchKey()
+function _player:NVGBASE_GetGoggleSwitchKey()
 	return self:GetInfoNum("NVGBASE_CYCLE", 23);
 end
 
@@ -129,7 +137,7 @@ end
 --! @return     Returns the next time the goggle and be toggled. If you are comparing against
 --!             this value, simply check that CurTime() is greater for "can toggle".
 --!
-function player:NVGBASE_GetNextToggleTime()
+function _player:NVGBASE_GetNextToggleTime()
 	return self:GetNWFloat("NVGBASE_NEXT_TOGGLE", 0);
 end
 
@@ -137,7 +145,7 @@ end
 --! @return     Returns the next time the goggle and be switched. If you are comparing against
 --!             this value, simply check that CurTime() is greater for "can switch".
 --!
-function player:NVGBASE_GetNextSwitchTime()
+function _player:NVGBASE_GetNextSwitchTime()
 	return self:GetNWFloat("NVGBASE_NEXT_SWITCH", 0);
 end
 
@@ -148,8 +156,8 @@ end
 --!
 --! @return     The name (key) of the current loadout.
 --!
-function player:NVGBASE_GetLoadout()
-	local loadout = self:GetNWString("NVGBASE_LOADOUT", "Splinter Cell");
+function _player:NVGBASE_GetLoadout()
+	local loadout = self:GetNWString("NVGBASE_LOADOUT", "");
 	if (loadout == "") then return nil; end
 	return NVGBASE_LOADOUTS[loadout];
 end
@@ -160,14 +168,14 @@ end
 --! @param      loadoutName  The loadout name to apply. Must match
 --!             the name of the loadout registered in the cache. 
 --!
-function player:NVGBASE_SetLoadout(loadoutName)
+function _player:NVGBASE_SetLoadout(loadoutName)
 	self:SetNWString("NVGBASE_LOADOUT", loadoutName);
 end
 
 --!
 --! @return     True if the goggles are currently toggled on, False otherwise.
 --!
-function player:NVGBASE_IsGoggleActive()
+function _player:NVGBASE_IsGoggleActive()
 	return self:GetInfoNum("NVGBASE_TOGGLE", 0) == 1;
 end
 
@@ -178,7 +186,7 @@ end
 --! @param      silent  Optional, if set to true, will not emit a sound to other players.
 --! @param      force   Optional, used to override the state to on (1) or off (0).
 --!
-function player:NVGBASE_ToggleGoggle(loadout, silent, force)
+function _player:NVGBASE_ToggleGoggle(loadout, silent, force)
 
 	local toggled = self:NVGBASE_IsGoggleActive();
 
@@ -209,7 +217,7 @@ end
 --!             will switch to the next goggle the user has access to. If whitelisting
 --!             is off, will cycle through all the goggles.
 --!
-function player:NVGBASE_SwitchToNextGoggle(loadout)
+function _player:NVGBASE_SwitchToNextGoggle(loadout)
 
 	local current = self:GetNWInt("NVGBASE_CURRENT_GOGGLE", 1);
 	self:SetNWInt("NVGBASE_LAST_GOGGLE", current);
@@ -250,7 +258,7 @@ end
 --!
 --! @return     True if can be toggled, False otherwise.
 --!
-function player:NVGBASE_CanToggleGoggle(key)
+function _player:NVGBASE_CanToggleGoggle(key)
 	if (key == nil) then return CurTime() > self:NVGBASE_GetNextToggleTime(); end
 	return key == self:NVGBASE_GetGoggleToggleKey() && CurTime() > self:NVGBASE_GetNextToggleTime();
 end
@@ -263,7 +271,7 @@ end
 --!
 --! @return     True if can be switched, False otherwise.
 --!
-function player:NVGBASE_CanSwitchGoggle(key)
+function _player:NVGBASE_CanSwitchGoggle(key)
 	local toggled = self:NVGBASE_IsGoggleActive();
 	if (key == nil) then return toggled && CurTime() > self:NVGBASE_GetNextSwitchTime(); end
 	return toggled && key == self:NVGBASE_GetGoggleSwitchKey() && CurTime() > self:NVGBASE_GetNextSwitchTime();
@@ -275,7 +283,7 @@ end
 --! @return     NVG Table.
 --! @debug      lua_run PrintTable(Entity(1):NVGBASE_GetGoggle())
 --!
-function player:NVGBASE_GetGoggle()
+function _player:NVGBASE_GetGoggle()
 	local goggle = self:GetNWInt("NVGBASE_CURRENT_GOGGLE", 1);
 	if (goggle == 0) then return nil; end
 	return self:NVGBASE_GetLoadout().Goggles[goggle];
@@ -291,7 +299,7 @@ end
 --! @return     True on success, False otherwise.
 --! @debug      lua_run print(Entity(1):NVGBASE_SetGoggle("Thermal"))
 --!
-function player:NVGBASE_SetGoggle(loadoutName, name)
+function _player:NVGBASE_SetGoggle(loadoutName, name)
 
 	local goggle = nil
 	for k,v in pairs(NVGBASE_LOADOUTS[loadoutName].Goggles) do if (v.Name == name) then goggle = k; end end
@@ -307,7 +315,7 @@ end
 --! @return     NVG Table.
 --! @debug      lua_run PrintTable(Entity(1):NVGBASE_GetPreviousGoggle())
 --!
-function player:NVGBASE_GetPreviousGoggle()
+function _player:NVGBASE_GetPreviousGoggle()
 	local goggle = self:GetNWInt("NVGBASE_LAST_GOGGLE", 0);
 	if (goggle == 0) then return nil; end
 	return self:NVGBASE_GetLoadout().Goggles[goggle];
@@ -324,7 +332,7 @@ end
 --! @debug 		lua_run print(Entity(1):NVGBASE_IsWhitelisted())
 --! @debug 		lua_run print(Entity(1):NVGBASE_IsWhitelisted(1))
 --!
-function player:NVGBASE_IsWhitelisted(loadout, goggle)
+function _player:NVGBASE_IsWhitelisted(loadout, goggle)
 
 	local model = self:GetModel();
 	if (goggle == nil || goggle == 0) then
