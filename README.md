@@ -46,7 +46,7 @@ An API ships with this addon to aid developers in interacting with the NVG Base.
 
 ### ![shared](images/shared.png?raw=true "shared") **player:NVGBASE_AnimGoggle(gogglesActive, anim, bodygroup, on, off)**
 >
-> *Utility function to animate playermodel. Can also be used to change playermodel bodygroup.*
+> *Utility function to animate playermodel. Can also be used to change playermodel bodygroup. Playermodel animation is set using AnimRestartGesture, refer to this link for more information: https://wiki.facepunch.com/gmod/Player:AnimRestartGesture*
 >
 >> Parameters:
 >> | Name | Type | Description |
