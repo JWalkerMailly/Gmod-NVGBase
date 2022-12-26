@@ -176,19 +176,21 @@ An API ships with this addon to aid developers in interacting with the NVG Base.
 >
 > *Determine if player whitelisting is active on the server. This essentially returns the value of the NVGBASE_WHITELIST ConVar.*
 >
->> Returns true if active, false otherwise.
+>> ##### Returns 
+>> true if active, false otherwise.
 
 ### ![NVGBASE_IsBoundingBoxVisible](images/shared.png) **player:NVGBASE_IsBoundingBoxVisible( target, maxDistance )**
 >
 > *Determine if an entity is visible by the player.*
 >
->> Parameters:
+>> ##### Parameters:
 >> | Name | Type | Description |
 >> |---|---|---|
 >> | target | entity | The entity to test. |
 >> | maxDistance | int | Max test distance in hammer units. |
 >
->> Returns true if visible, false otherwise.
+>> ##### Returns 
+>> true if visible, false otherwise.
 
 ### ![NVGBASE_AnimGoggle](images/shared.png) **player:NVGBASE_AnimGoggle( gogglesActive, anim, bodygroup, on, off )**
 >
