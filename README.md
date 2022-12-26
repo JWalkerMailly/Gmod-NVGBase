@@ -32,13 +32,14 @@ An API ships with this addon to aid developers in interacting with the NVG Base.
 >
 >> Returns true if active, false otherwise.
 
+---
+
 > ![shared](images/shared.png?raw=true "shared") **player:NVGBASE_IsBoundingBoxVisible(target, maxDistance)**
 >
 > *Determine if an entity is visible by the player.*
 >
 >> Parameters
->>
->> target: The entity to test.
->> maxDistance: Max test distance in hammer units.
+>> - target: The entity to test.
+>> - maxDistance: Max test distance in hammer units.
 >
 >> Returns true if active, false otherwise.
