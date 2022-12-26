@@ -6,11 +6,11 @@ local color  = FindMetaTable("Color");
 -- Server side whitelist convar.
 if (SERVER) then
 
-	CreateConVar("NVGBASE_WHITELIST", "0", FCVAR_ARCHIVE);
-	CreateConVar("NVGBASE_ALLOWPLAYERLOADOUT", "0", FCVAR_ARCHIVE);
+	CreateConVar("NVGBASE_WHITELIST", "0", { FCVAR_ARCHIVE, FCVAR_CHEAT });
+	CreateConVar("NVGBASE_ALLOWPLAYERLOADOUT", "0", { FCVAR_ARCHIVE, FCVAR_CHEAT });
 
 	-- Admin console command to define the gamemode loadout on the fly.
-	CreateConVar("NVGBASE_DEFAULTLOADOUT", "", FCVAR_ARCHIVE);
+	CreateConVar("NVGBASE_DEFAULTLOADOUT", "", { FCVAR_ARCHIVE, FCVAR_CHEAT });
 	concommand.Add("NVGBASE_GAMEMODELOADOUT", function(ply, cmd, args)
 
 		if (args[1] == nil) then return; end
