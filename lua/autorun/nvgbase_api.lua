@@ -6,7 +6,7 @@ local color  = FindMetaTable("Color");
 -- Server side whitelist convar.
 if (SERVER) then
 
-	CreateConVar("NVGBASE_WHITELIST", "1", FCVAR_ARCHIVE);
+	CreateConVar("NVGBASE_WHITELIST", "0", FCVAR_ARCHIVE);
 	CreateConVar("NVGBASE_ALLOWPLAYERLOADOUT", "0", FCVAR_ARCHIVE);
 
 	-- Admin console command to define the gamemode loadout on the fly.

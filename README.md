@@ -4,10 +4,26 @@ Modular base for developers to create Night Vision Goggles for Gmod. Features a 
 https://github.com/JWalkerMailly/SplinterCellNVG
 
 ### Table of contents
+0. Getting Started
 1. Controls
 2. Loadouts
 3. Whitelist
 4. API
+
+## Getting Started
+Please note that this addon is simply a base. Nevertheless, here are the required steps to get everything working:
+1. Download a NVG Loadout addon to use with this base.
+2. Once installed, run this command:
+```
+NVGBASE_SHOWLOADOUTS
+```
+It should print the name of the new loadout in the console, if it does not, restart your game.
+
+3. Next run this command:
+```
+NVGBASE_GAMEMODELOADOUT "name_of_loadout_here"
+```
+4. You are now ready to use your new NVG loadout, press N to test it out. If you are an admin, see the loadouts section for more console commands.
 
 ## Controls
 Controls are defined with clientside ConVars. Users can define their own in the console with the following commands:
@@ -165,7 +181,7 @@ It is possible for the server admins to dictate which loadout should be used on 
 | NVGBASE_SHOWLOADOUTS | none | Print a list of available loadouts to console. |
 
 ## Whitelist
-The whitelist can be turned on or off globally by an administrator of the server. To do so, use the following command:
+The playermodel whitelist can be turned on or off globally by an administrator of the server. To do so, use the following command (off by default):
 ```
 NVGBASE_WHITELIST 0|1
 ```
