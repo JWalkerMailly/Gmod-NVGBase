@@ -178,7 +178,7 @@ An API ships with this addon to aid developers in interacting with the NVG Base.
 >
 >> Returns true if active, false otherwise.
 
-### ![NVGBASE_IsBoundingBoxVisible](images/shared.png) **player:NVGBASE_IsBoundingBoxVisible(target, maxDistance)**
+### ![NVGBASE_IsBoundingBoxVisible](images/shared.png) **player:NVGBASE_IsBoundingBoxVisible( target, maxDistance )**
 >
 > *Determine if an entity is visible by the player.*
 >
@@ -190,7 +190,7 @@ An API ships with this addon to aid developers in interacting with the NVG Base.
 >
 >> Returns true if visible, false otherwise.
 
-### ![NVGBASE_AnimGoggle](images/shared.png) **player:NVGBASE_AnimGoggle(gogglesActive, anim, bodygroup, on, off)**
+### ![NVGBASE_AnimGoggle](images/shared.png) **player:NVGBASE_AnimGoggle( gogglesActive, anim, bodygroup, on, off )**
 >
 > *Utility function to animate playermodel. Can also be used to change playermodel bodygroup. Playermodel animation is set using AnimRestartGesture, refer to this link for more information: https://wiki.facepunch.com/gmod/Player:AnimRestartGesture. For more information on bodygroups, see this link: https://wiki.facepunch.com/gmod/Entity:SetBodygroup.*
 >
@@ -233,7 +233,7 @@ An API ships with this addon to aid developers in interacting with the NVG Base.
 >
 >> Returns full loadout table. Can be used to access all the settings of the current loadout.
 
-### ![NVGBASE_SetLoadout](images/shared.png) **player:NVGBASE_SetLoadout(loadoutName)**
+### ![NVGBASE_SetLoadout](images/shared.png) **player:NVGBASE_SetLoadout( loadoutName )**
 >
 > *Set which NVG loadout the player should use. Although this can be used on both client and server, it should either be set on both, or server only. Setting it only clientside will cause a desync between the server and the client.*
 >
@@ -248,7 +248,7 @@ An API ships with this addon to aid developers in interacting with the NVG Base.
 >
 >> Returns true if active, false otherwise.
 
-### ![NVGBASE_ToggleGoggle](images/shared.png) **player:NVGBASE_ToggleGoggle(loadout, silent, force)**
+### ![NVGBASE_ToggleGoggle](images/shared.png) **player:NVGBASE_ToggleGoggle( loadout, silent, force )**
 >
 > *Internal utility function used to toggle a player's goggle. Although this can be used on both client and server, it should either be used on both, or server only. Setting it only clientside will cause a desync between the server and the client.*
 >
@@ -259,7 +259,7 @@ An API ships with this addon to aid developers in interacting with the NVG Base.
 >> | silent | bool | Set to true to avoid playing toggle sound, false to play. |
 >> | force | int | **optional** Use to force set the toggle status. 1 for true, 0 for false. |
 
-### ![NVGBASE_SwitchToNextGoggle](images/shared.png) **player:NVGBASE_SwitchToNextGoggle(loadout)**
+### ![NVGBASE_SwitchToNextGoggle](images/shared.png) **player:NVGBASE_SwitchToNextGoggle( loadout )**
 >
 > *Internal utility function to switch to the next goggle. If whitelisting is on, will switch to the next goggle the user has access to. If whitelisting is off, will cycle through all the goggles.*
 >
@@ -268,7 +268,7 @@ An API ships with this addon to aid developers in interacting with the NVG Base.
 >> |---|---|---|
 >> | loadout | table | Player's current loadout table. |
 
-### ![NVGBASE_CanToggleGoggle](images/shared.png) **player:NVGBASE_CanToggleGoggle(key)**
+### ![NVGBASE_CanToggleGoggle](images/shared.png) **player:NVGBASE_CanToggleGoggle( key )**
 >
 > *Utility function to determine if the player can toggle their goggles. If no key is provided, will only take into account timing since last toggle. Providing a key will check to make sure it matches with the player's toggle key. For more info on keys, see this link: https://wiki.facepunch.com/gmod/Enums/KEY*
 >
@@ -279,7 +279,7 @@ An API ships with this addon to aid developers in interacting with the NVG Base.
 >
 >> Returns true if can toggle, false otherwise.
 
-### ![NVGBASE_CanSwitchGoggle](images/shared.png) **player:NVGBASE_CanSwitchGoggle(key)**
+### ![NVGBASE_CanSwitchGoggle](images/shared.png) **player:NVGBASE_CanSwitchGoggle( key )**
 >
 > *Utility function to determine if the player can switch their goggles. If no key is provided, will only take into account timing since last switch. Providing a key will check to make sure it matches with the player's switch key. For more info on keys, see this link: https://wiki.facepunch.com/gmod/Enums/KEY*
 >
@@ -296,7 +296,7 @@ An API ships with this addon to aid developers in interacting with the NVG Base.
 >
 >> Returns current goggle table. Useful for accessing a goggle's settings.
 
-### ![NVGBASE_SetGoggle](images/shared.png) **player:NVGBASE_SetGoggle(loadoutName, name)**
+### ![NVGBASE_SetGoggle](images/shared.png) **player:NVGBASE_SetGoggle( loadoutName, name )**
 >
 > *Utility function to set a goggle on the player. Does not toggle the goggle, will simply set the reference for the next toggle. Although you can use this function, you probably shouldn't.*
 >
@@ -314,7 +314,7 @@ An API ships with this addon to aid developers in interacting with the NVG Base.
 >
 >> Returns previous goggle table. Useful for accessing a goggle's settings.
 
-### ![NVGBASE_IsWhitelisted](images/shared.png) **player:NVGBASE_IsWhitelisted(loadout, goggle)**
+### ![NVGBASE_IsWhitelisted](images/shared.png) **player:NVGBASE_IsWhitelisted( loadout, goggle )**
 >
 > *Determines if the player is whitelisted for a goggle according to his playermodel. If no goggle is supplied, will do a general check to see if he can use the loadout.*
 >
