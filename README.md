@@ -89,9 +89,35 @@ An API ships with this addon to aid developers in interacting with the NVG Base.
 
 ### ![shared](images/shared.png?raw=true "shared") **player:NVGBASE_SetLoadout(loadoutName)**
 >
-> *Set which NVG loadout the player should use.*
+> *Set which NVG loadout the player should use. Although this can be used on both client and server, it should either be set on both, or server only. Setting it only clientside will cause a desync between the server and the client.*
 >
 >> Parameters:
 >> | Name | Type | Description |
 >> |---|---|---|
 >> | loadoutName | string | The loadout to use. This is the key name of a registered loadout. |
+
+### ![shared](images/shared.png?raw=true "shared") **player:NVGBASE_IsGoggleActive()**
+>
+> *Determine if the player is currently using a NVG goggle.*
+>
+>> Returns true if active, false otherwise.
+
+### ![shared](images/shared.png?raw=true "shared") **player:NVGBASE_ToggleGoggle(loadout, silent, force)**
+>
+> *Utility function used to toggle a player's goggle. Although this can be used on both client and server, it should either be used on both, or server only. Setting it only clientside will cause a desync between the server and the client.*
+>
+>> Parameters:
+>> | Name | Type | Description |
+>> |---|---|---|
+>> | loadout | table | Player's current loadout table. |
+>> | silent | bool | Set to true to avoid playing toggle sound, false to play. |
+>> | force | int | **optional** Use to force set the toggle status. 1 for true, 0 for false. |
+
+### ![shared](images/shared.png?raw=true "shared") **player:NVGBASE_SwitchToNextGoggle(loadout)**
+>
+> *Utility function to switch to the next goggle. If whitelisting is on, will switch to the next goggle the user has access to. If whitelisting is off, will cycle through all the goggles.*
+>
+>> Parameters:
+>> | Name | Type | Description |
+>> |---|---|---|
+>> | loadout | table | Player's current loadout table. |
