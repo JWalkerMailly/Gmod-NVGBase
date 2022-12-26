@@ -299,7 +299,7 @@ hook.Add("HUDPaintBackground", "NVGBASE_HUD", function()
 
 		-- Do transition animation in.
 		if (loadout.Settings.Overlays != nil) then
-			NVGBASE_GOGGLES:TransitionIn(loadout.Settings.Transition.Rate, loadout.Settings.Overlays.Second);
+			NVGBASE_GOGGLES:TransitionIn(loadout.Settings.Transition.Rate, loadout.Settings.Overlays.Transition);
 		end
 
 		if (!NVGBASE_GOGGLES.Toggled) then
@@ -390,7 +390,7 @@ hook.Add("HUDPaintBackground", "NVGBASE_HUD", function()
 
 		-- Transition lens out.
 		if (loadout.Settings.Overlays != nil) then
-			NVGBASE_GOGGLES:TransitionOut(loadout.Settings.Transition.Rate, loadout.Settings.Overlays.Second);
+			NVGBASE_GOGGLES:TransitionOut(loadout.Settings.Transition.Rate, loadout.Settings.Overlays.Transition);
 		end
 
 		-- Reset defaults for next toggle.
@@ -410,7 +410,7 @@ hook.Add("HUDPaintBackground", "NVGBASE_HUD", function()
 
 	-- This is always called but will not interfere with other addons.
 	if (loadout.Settings.Overlays != nil) then
-		NVGBASE_GOGGLES:DrawOverlay(currentConfig.MaterialOverlay, currentConfig.OverlayFirst, loadout.Settings.Overlays.First);
+		NVGBASE_GOGGLES:DrawOverlay(currentConfig.MaterialOverlay, currentConfig.OverlayFirst, loadout.Settings.Overlays.Goggle);
 	end
 end);
 

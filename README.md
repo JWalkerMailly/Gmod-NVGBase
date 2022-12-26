@@ -132,6 +132,8 @@ TEMPLATE.Goggles[1] = {
 	PostProcess = function(self)
 		-- Set to nil if you are not doing postprocessing.
 		-- * self refers this goggle table.
+
+		-- This is where you would call DrawBloom, DrawSobel, etc.
 	end,
 
 	OffscreenRendering = function(self, texture)
