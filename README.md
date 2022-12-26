@@ -69,7 +69,7 @@ TEMPLATE.Goggles[1] = {
 
 	Name = "first_goggle_name",
 
-	-- Whitelist should be a table of playermodels.
+	-- Whitelist should be a table of playermodel strings.
 	Whitelist = nil,
 
 	-- Full screen material overlay.
