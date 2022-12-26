@@ -140,6 +140,9 @@ TEMPLATE.Goggles[1] = {
 	end
 };
 
+-- Define second goggle of the loadout, so on and so forth.
+TEMPLATE.Goggles[2] = {}
+
 -- Register the loadout.
 NVGBASE_LOADOUTS.Register("loadout_name", TEMPLATE);
 ```
