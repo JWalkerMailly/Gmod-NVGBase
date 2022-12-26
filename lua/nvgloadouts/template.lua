@@ -114,4 +114,4 @@ TEMPLATE.Goggles[1] = {
 };
 
 -- Register the loadout. Line is commented to avoid adding it to the real loadout cache.
--- NVGBASE_LOADOUTS.Register("loadout_name", TEMPLATE);
+-- NVGBASE.Register("loadout_name", TEMPLATE);

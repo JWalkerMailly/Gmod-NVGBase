@@ -22,6 +22,14 @@ if (SERVER) then
 	end, nil, nil, FCVAR_CHEAT);
 end
 
+-- Show all available NVG loadouts.
+concommand.Add("NVGBASE_SHOWLOADOUTS", function(ply, cmd, args)
+
+	for k,v in pairs(NVGBASE.Loadouts) do
+		print(k);
+	end
+end, nil, nil, 0);
+
 -- Player console command to define the loadout on the fly.
 concommand.Add("NVGBASE_PLAYERLOADOUT", function(ply, cmd, args)
 
@@ -172,7 +180,7 @@ end
 function _player:NVGBASE_GetLoadout()
 	local loadout = self:GetNWString("NVGBASE_LOADOUT", GetConVar("NVGBASE_DEFAULTLOADOUT"):GetString());
 	if (loadout == "") then return nil; end
-	return NVGBASE_LOADOUTS[loadout];
+	return NVGBASE.Loadouts[loadout];
 end
 
 --!
@@ -318,7 +326,7 @@ end
 function _player:NVGBASE_SetGoggle(loadoutName, name)
 
 	local goggle = nil
-	for k,v in pairs(NVGBASE_LOADOUTS[loadoutName].Goggles) do if (v.Name == name) then goggle = k; end end
+	for k,v in pairs(NVGBASE.Loadouts[loadoutName].Goggles) do if (v.Name == name) then goggle = k; end end
 	if (goggle == nil) then return false; end
 
 	self:SetNWInt("NVGBASE_CURRENT_GOGGLE", goggle);

@@ -150,7 +150,7 @@ TEMPLATE.Goggles[1] = {
 TEMPLATE.Goggles[2] = {}
 
 -- Register the loadout.
-NVGBASE_LOADOUTS.Register("loadout_name", TEMPLATE);
+NVGBASE.Register("loadout_name", TEMPLATE);
 ```
 
 ### Console Commands
@@ -161,7 +161,8 @@ It is possible for the server admins to dictate which loadout should be used on 
 | NVGBASE_ALLOWPLAYERLOADOUT | 0 or 1 | **admin** Determine if players can choose their own NVG loadout. |
 | NVGBASE_DEFAULTLOADOUT | String, name of loadout | **admin** Set default loadout when none is set. To reset, use an empty string. |
 | NVGBASE_GAMEMODELOADOUT | String, name of loadout | **admin** Set loadout on all players. This will also change the default loadout. |
-| NVGBASE_PLAYERLOADOUT | String, name of loadout | Choose loadout. |
+| NVGBASE_PLAYERLOADOUT | String, name of loadout | Choose loadout. It is possible to print a list of available loadouts using the command NVGBASE_SHOWLOADOUTS. |
+| NVGBASE_SHOWLOADOUTS | none | Print a list of available loadouts to console. |
 
 ## Whitelist
 The whitelist can be turned on or off globally by an administrator of the server. To do so, use the following command:

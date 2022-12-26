@@ -1,9 +1,10 @@
 
-NVGBASE_LOADOUTS = {};
+NVGBASE = {};
+NVGBASE.Loadouts = {};
 
 -- Loadout register function, must be added to the end of a loadout file.
-NVGBASE_LOADOUTS.Register = function(name, loadout)
-	NVGBASE_LOADOUTS[name] = loadout;
+NVGBASE.Register = function(name, loadout)
+	NVGBASE.Loadouts[name] = loadout;
 end
 
 -- Auto loader for all loadouts found in the nvgloadouts lua directory.
