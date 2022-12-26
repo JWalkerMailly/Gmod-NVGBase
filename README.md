@@ -54,7 +54,7 @@ NVGBASE_WHITELIST 0|1
 When the whitelist if turned off, any goggle from the player's loadout can be used by his player model.
 
 ## Loadouts
-Loadout configurations need to be defined inside a lua file inside a folder named *nvgloadouts*. If you are creating an addon, this should be your folder structure:
+A loadout is a configuration table with one or multiple goggles defined inside of it. A loadout should be catered towards a specific subject. A great implementation of this is the Splinter Cell loadout referenced at the top of this readme. Loadout configurations need to be defined inside a lua file inside a folder named *nvgloadouts*. If you are creating an addon, this should be your folder structure:
 ```
 your_addon/lua/nvgloadouts/your_loadout.lua
 ```
