@@ -38,7 +38,7 @@ An API ships with this addon to aid developers in interacting with the NVG Base.
 >
 > *Determine if an entity is visible by the player.*
 >
->> Parameters
+>> Parameters:
 >> - **target**: The entity to test.
 >> - **maxDistance**: Max test distance in hammer units.
 >
