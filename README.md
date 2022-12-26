@@ -23,7 +23,7 @@ It should print the name of the new loadout in the console, if it does not, rest
 ```
 NVGBASE_GAMEMODELOADOUT "name_of_loadout_here"
 ```
-4. You are now ready to use your new NVG loadout, press N to test it out. If you are an admin, see the loadouts section for more console commands.
+4. You are now ready to use your new NVG loadout, press N to test it out and M to cycle through the goggles. If you are an admin, see the loadouts section for more console commands.
 
 ## Controls
 Controls are defined with clientside ConVars. Users can define their own in the console with the following commands:
