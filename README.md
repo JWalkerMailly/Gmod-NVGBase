@@ -159,7 +159,8 @@ It is possible for the server admins to dictate which loadout should be used on 
 | Command | Values | Description |
 |---|---|---|
 | NVGBASE_ALLOWPLAYERLOADOUT | 0 or 1 | **admin** Determine if players can choose their own NVG loadout. |
-| NVGBASE_GAMEMODELOADOUT | String, name of loadout | **admin** Set loadout on all players. |
+| NVGBASE_DEFAULTLOADOUT | String, name of loadout | **admin** Set default loadout when none is set. To reset, use an empty string. |
+| NVGBASE_GAMEMODELOADOUT | String, name of loadout | **admin** Set loadout on all players. This will also change the default loadout. |
 | NVGBASE_PLAYERLOADOUT | String, name of loadout | Choose loadout. |
 
 ## Whitelist

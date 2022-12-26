@@ -10,9 +10,12 @@ if (SERVER) then
 	CreateConVar("NVGBASE_ALLOWPLAYERLOADOUT", "0", FCVAR_ARCHIVE);
 
 	-- Admin console command to define the gamemode loadout on the fly.
+	CreateConVar("NVGBASE_DEFAULTLOADOUT", "", FCVAR_ARCHIVE);
 	concommand.Add("NVGBASE_GAMEMODELOADOUT", function(ply, cmd, args)
 
 		if (args[1] == nil) then return; end
+
+		GetConVar("NVGBASE_DEFAULTLOADOUT"):SetString(args[1]);
 		for k,v in pairs(player.GetAll()) do
 			v:NVGBASE_SetLoadout(args[1]);
 		end
@@ -167,7 +170,7 @@ end
 --! @return     The name (key) of the current loadout.
 --!
 function _player:NVGBASE_GetLoadout()
-	local loadout = self:GetNWString("NVGBASE_LOADOUT", "");
+	local loadout = self:GetNWString("NVGBASE_LOADOUT", GetConVar("NVGBASE_DEFAULTLOADOUT"):GetString());
 	if (loadout == "") then return nil; end
 	return NVGBASE_LOADOUTS[loadout];
 end
