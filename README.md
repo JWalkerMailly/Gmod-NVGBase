@@ -56,3 +56,27 @@ An API ships with this addon to aid developers in interacting with the NVG Base.
 >> | bodygroup | int | **optional** The bodygroup ID to modify. Use nil if not changing bodygroup. |
 >> | on | int | The bodygroup's "on" value for the goggles. |
 >> | off | int | The bodygroup's "off" value for the goggles. |
+
+### ![shared](images/shared.png?raw=true "shared") **player:NVGBASE_GetGoggleToggleKey()**
+>
+> *Return the player's key used to toggle NVG goggle.*
+>
+>> Returns Goggle toggle key value.
+
+### ![shared](images/shared.png?raw=true "shared") **player:NVGBASE_GetGoggleSwitchKey()**
+>
+> *Return the player's key used to switch NVG goggle.*
+>
+>> Returns Goggle switch key value.
+
+### ![shared](images/shared.png?raw=true "shared") **player:NVGBASE_GetNextToggleTime()**
+>
+> *If you are comparing against this value, simply check that CurTime() is greater for "can toggle".*
+>
+>> Returns the next time the goggle and be toggled.
+
+### ![shared](images/shared.png?raw=true "shared") **player:NVGBASE_GetNextSwitchTime()**
+>
+> *If you are comparing against this value, simply check that CurTime() is greater for "can switch".*
+>
+>> Returns the next time the goggle and be switched.
