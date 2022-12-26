@@ -124,7 +124,7 @@ An API ships with this addon to aid developers in interacting with the NVG Base.
 
 ### ![shared](images/shared.png?raw=true "shared") **player:NVGBASE_CanToggleGoggle(key)**
 >
-> *Utility function to determine if the player can toggle their goggles. If no key is provided, will only take into account timing since last toggle.*
+> *Utility function to determine if the player can toggle their goggles. If no key is provided, will only take into account timing since last toggle. Providing a key will check to make sure it matches with the player's toggle key.*
 >
 >> Parameters:
 >> | Name | Type | Description |
@@ -135,7 +135,7 @@ An API ships with this addon to aid developers in interacting with the NVG Base.
 
 ### ![shared](images/shared.png?raw=true "shared") **player:NVGBASE_CanSwitchGoggle(key)**
 >
-> *Utility function to determine if the player can switch their goggles. If no key is provided, will only take into account timing since last switch.*
+> *Utility function to determine if the player can switch their goggles. If no key is provided, will only take into account timing since last switch. Providing a key will check to make sure it matches with the player's switch key.*
 >
 >> Parameters:
 >> | Name | Type | Description |
@@ -143,3 +143,39 @@ An API ships with this addon to aid developers in interacting with the NVG Base.
 >> | key | enum | **optional** Key input to test. Useful when used inside a player input hook. |
 >
 >> Returns true if can switch, false otherwise.
+
+### ![shared](images/shared.png?raw=true "shared") **player:NVGBASE_GetGoggle()**
+>
+> *Utility function to get the current NVG goggle table of a player.*
+>
+>> Returns current goggle table. Useful for accessing a goggle's settings.
+
+### ![shared](images/shared.png?raw=true "shared") **player:NVGBASE_SetGoggle(loadoutName, name)**
+>
+> *Utility function to set a goggle on the player. Does not toggle the goggle, will simply set the reference for the next toggle. Although you can use this function, you probably shouldn't.*
+>
+>> Parameters:
+>> | Name | Type | Description |
+>> |---|---|---|
+>> | loadoutName | string | The loadout to which the goggle being set belongs. |
+>> | name | string | The name of the goggle to use when toggling. |
+>
+>> Returns true on success, false otherwise.
+
+### ![shared](images/shared.png?raw=true "shared") **player:NVGBASE_GetPreviousGoggle()**
+>
+> *Utility function to retreive the player's previous goggle.*
+>
+>> Returns previous goggle table. Useful for accessing a goggle's settings.
+
+### ![shared](images/shared.png?raw=true "shared") **player:NVGBASE_IsWhitelisted(loadout, goggle)**
+>
+> *Determines if the player is whitelisted for a goggle according to his playermodel. If no goggle is supplied, will do a general check to see if he can use the goggle feature.*
+>
+>> Parameters:
+>> | Name | Type | Description |
+>> |---|---|---|
+>> | loadout | table | The loadout to which the goggle being set belongs. |
+>> | goggle | int | The goggle key from the loadout. |
+>
+>> Returns true if whitelisted, false otherwise.
