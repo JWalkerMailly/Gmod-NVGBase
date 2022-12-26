@@ -174,7 +174,7 @@ An API ships with this addon to aid developers in interacting with the NVG Base.
 
 ### ![Shared](images/shared.png?raw=true "Shared") **_G:NVGBASE_IsWhitelistOn()**
 >
-> *Determine if player whitelisting is active on the server.*
+> *Determine if player whitelisting is active on the server. This essentially returns the value of the NVGBASE_WHITELIST ConVar.*
 >
 >> Returns true if active, false otherwise.
 
@@ -192,7 +192,7 @@ An API ships with this addon to aid developers in interacting with the NVG Base.
 
 ### ![Shared](images/shared.png?raw=true "Shared") **player:NVGBASE_AnimGoggle(gogglesActive, anim, bodygroup, on, off)**
 >
-> *Utility function to animate playermodel. Can also be used to change playermodel bodygroup. Playermodel animation is set using AnimRestartGesture, refer to this link for more information: https://wiki.facepunch.com/gmod/Player:AnimRestartGesture*
+> *Utility function to animate playermodel. Can also be used to change playermodel bodygroup. Playermodel animation is set using AnimRestartGesture, refer to this link for more information: https://wiki.facepunch.com/gmod/Player:AnimRestartGesture. For more information on bodygroups, see this link: https://wiki.facepunch.com/gmod/Entity:SetBodygroup.*
 >
 >> Parameters:
 >> | Name | Type | Description |
@@ -205,13 +205,13 @@ An API ships with this addon to aid developers in interacting with the NVG Base.
 
 ### ![Shared](images/shared.png?raw=true "Shared") **player:NVGBASE_GetGoggleToggleKey()**
 >
-> *Return the player's key used to toggle NVG goggle.*
+> *Return the player's key used to toggle NVG goggle. Refer to this link for more info on keys: https://wiki.facepunch.com/gmod/Enums/KEY*
 >
 >> Returns Goggle toggle key value.
 
 ### ![Shared](images/shared.png?raw=true "Shared") **player:NVGBASE_GetGoggleSwitchKey()**
 >
-> *Return the player's key used to switch NVG goggle.*
+> *Return the player's key used to switch NVG goggle. Refer to this link for more info on keys: https://wiki.facepunch.com/gmod/Enums/KEY*
 >
 >> Returns Goggle switch key value.
 
@@ -244,13 +244,13 @@ An API ships with this addon to aid developers in interacting with the NVG Base.
 
 ### ![Shared](images/shared.png?raw=true "Shared") **player:NVGBASE_IsGoggleActive()**
 >
-> *Determine if the player is currently using a NVG goggle.*
+> *Determine if the player is currently using a NVG goggle. This essentially returns the player's current ConVar value for NVGBASE_TOGGLE.*
 >
 >> Returns true if active, false otherwise.
 
 ### ![Shared](images/shared.png?raw=true "Shared") **player:NVGBASE_ToggleGoggle(loadout, silent, force)**
 >
-> *Utility function used to toggle a player's goggle. Although this can be used on both client and server, it should either be used on both, or server only. Setting it only clientside will cause a desync between the server and the client.*
+> *Internal utility function used to toggle a player's goggle. Although this can be used on both client and server, it should either be used on both, or server only. Setting it only clientside will cause a desync between the server and the client.*
 >
 >> Parameters:
 >> | Name | Type | Description |
@@ -261,7 +261,7 @@ An API ships with this addon to aid developers in interacting with the NVG Base.
 
 ### ![Shared](images/shared.png?raw=true "Shared") **player:NVGBASE_SwitchToNextGoggle(loadout)**
 >
-> *Utility function to switch to the next goggle. If whitelisting is on, will switch to the next goggle the user has access to. If whitelisting is off, will cycle through all the goggles.*
+> *Internal utility function to switch to the next goggle. If whitelisting is on, will switch to the next goggle the user has access to. If whitelisting is off, will cycle through all the goggles.*
 >
 >> Parameters:
 >> | Name | Type | Description |
@@ -270,7 +270,7 @@ An API ships with this addon to aid developers in interacting with the NVG Base.
 
 ### ![Shared](images/shared.png?raw=true "Shared") **player:NVGBASE_CanToggleGoggle(key)**
 >
-> *Utility function to determine if the player can toggle their goggles. If no key is provided, will only take into account timing since last toggle. Providing a key will check to make sure it matches with the player's toggle key.*
+> *Utility function to determine if the player can toggle their goggles. If no key is provided, will only take into account timing since last toggle. Providing a key will check to make sure it matches with the player's toggle key. For more info on keys, see this link: https://wiki.facepunch.com/gmod/Enums/KEY*
 >
 >> Parameters:
 >> | Name | Type | Description |
@@ -281,7 +281,7 @@ An API ships with this addon to aid developers in interacting with the NVG Base.
 
 ### ![Shared](images/shared.png?raw=true "Shared") **player:NVGBASE_CanSwitchGoggle(key)**
 >
-> *Utility function to determine if the player can switch their goggles. If no key is provided, will only take into account timing since last switch. Providing a key will check to make sure it matches with the player's switch key.*
+> *Utility function to determine if the player can switch their goggles. If no key is provided, will only take into account timing since last switch. Providing a key will check to make sure it matches with the player's switch key. For more info on keys, see this link: https://wiki.facepunch.com/gmod/Enums/KEY*
 >
 >> Parameters:
 >> | Name | Type | Description |
@@ -316,7 +316,7 @@ An API ships with this addon to aid developers in interacting with the NVG Base.
 
 ### ![Shared](images/shared.png?raw=true "Shared") **player:NVGBASE_IsWhitelisted(loadout, goggle)**
 >
-> *Determines if the player is whitelisted for a goggle according to his playermodel. If no goggle is supplied, will do a general check to see if he can use the goggle feature.*
+> *Determines if the player is whitelisted for a goggle according to his playermodel. If no goggle is supplied, will do a general check to see if he can use the loadout.*
 >
 >> Parameters:
 >> | Name | Type | Description |
