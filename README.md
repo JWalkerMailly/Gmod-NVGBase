@@ -20,6 +20,15 @@ Loadout configurations need to be defined inside a lua file inside a folder name
 your_addon/lua/nvgloadouts/your_loadout.lua
 ```
 
+### Console Commands
+It is possible for the server admins to dictate which loadout should be used on the fly, and set rules regarding whether or not a player can choose its own NVG loadout. Here is a list of all console commands available.
+
+| Command | Values | Description |
+|---|---|---|
+| NVGBASE_ALLOWPLAYERLOADOUT | 0 or 1 | **admin** Determine if players can choose their own NVG loadout. |
+| NVGBASE_GAMEMODELOADOUT | String, name of loadout | **admin** Set loadout on all players. |
+| NVGBASE_PLAYERLOADOUT | String, name of loadout | Choose loadout. |
+
 ### Loadout template file
 Here is the structure of a loadout:
 ```lua

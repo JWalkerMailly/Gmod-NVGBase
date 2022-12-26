@@ -5,25 +5,26 @@ local color  = FindMetaTable("Color");
 
 -- Server side whitelist convar.
 if (SERVER) then
+
 	CreateConVar("NVGBASE_WHITELIST", "1", FCVAR_ARCHIVE);
 	CreateConVar("NVGBASE_ALLOWPLAYERLOADOUT", "0", FCVAR_ARCHIVE);
+
+	-- Admin console command to define the gamemode loadout on the fly.
+	concommand.Add("NVGBASE_GAMEMODELOADOUT", function(ply, cmd, args)
+
+		if (args[1] == nil) then return; end
+		for k,v in pairs(player.GetAll()) do
+			v:NVGBASE_SetLoadout(args[1]);
+		end
+	end, nil, nil, FCVAR_CHEAT);
 end
-
--- Admin console command to define the gamemode loadout on the fly.
-concommand.Add("NVGBASE_GAMEMODELOADOUT", function(ply, cmd, args)
-
-	if (args[1] == nil) then return; end
-	for k,v in pairs(player.GetAll()) do
-		v:NVGBASE_SetLoadout(args[1]);
-	end
-end, nil, nil, FCVAR_CHEAT);
 
 -- Player console command to define the loadout on the fly.
 concommand.Add("NVGBASE_PLAYERLOADOUT", function(ply, cmd, args)
 
 	if (args[1] == nil || ply == NULL || !GetConVar("NVGBASE_ALLOWPLAYERLOADOUT"):GetBool()) then return; end
 	ply:NVGBASE_SetLoadout(args[1]);
-end, nil, nil, FCVAR_CHEAT);
+end, nil, nil, 0);
 
 --!
 --! @brief      Utility function to determine if player model whitelisting is on.
