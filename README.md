@@ -37,10 +37,10 @@ TEMPLATE.Settings = {
 
 	-- Bodygroup to set if your playermodels have special bodygroups for goggles on/off.
 	BodyGroups = {
-		Group = nil,
+		Group = nil,  -- Should be an int, or nil if you don't use bodygroups
 		Values = {
-			On = nil,
-			Off = nil
+			On = nil, -- Should be an int, or nil if you don't use bodygroups
+			Off = nil -- Should be an int, or nil if you don't use bodygroups
 		}
 	},
 
@@ -48,8 +48,8 @@ TEMPLATE.Settings = {
 	-- Goggle is a static fullscreen texture.
 	-- Transition is the texture used when animating the transition in and out.
 	Overlays = {
-		Goggle = nil,
-		Transition = nil
+		Goggle = nil,    -- Should be a Material() or nil
+		Transition = nil -- Should be a Material() or nil
 	},
 
 	-- Transition timings for transition overlay.
@@ -57,7 +57,7 @@ TEMPLATE.Settings = {
 		Rate = 5,
 		Delay = 0.225,
 		Switch = 0.5,
-		Sound = nil
+		Sound = nil -- String representing the path to the sound file.
 	},
 
 	-- True to remove on death, false otherwise.
@@ -73,16 +73,18 @@ TEMPLATE.Goggles[1] = {
 	Whitelist = nil,
 
 	-- Full screen material overlay.
-	MaterialOverlay   = nil,
-	OverlayFirst      = false,
+	MaterialOverlay   = nil,   -- Should be a material or nil
+	OverlayFirst      = false, -- Used to swap rendering order between this and Overlays.Goggle
 
 	-- Full screen material overlay.
-	MaterialInterlace = nil,
+	MaterialInterlace = nil,   -- Should be a material or nil
 	InterlaceColor    = Color(255, 255, 255, 255),
 
 	-- Material to apply to every entity that passes the filter function.
-	MaterialOverride  = nil,
+	MaterialOverride  = nil, -- Should be a string path, not a Material
 	Filter = function(ent)
+
+		-- This will be ran for every entity. Return true to override entity's material.
 		return;
 	end,
 
