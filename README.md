@@ -9,6 +9,8 @@ https://github.com/JWalkerMailly/SplinterCellNVG
 	1. Commands
 	2. Whitelist
 3. Loadouts
+	1. Template
+	2. Registering
 4. API
 
 ## Getting Started
@@ -187,6 +189,12 @@ TEMPLATE.Goggles[2] = {}
 
 -- Register the loadout.
 NVGBASE.Register("loadout_name", TEMPLATE);
+```
+
+### Registering Loadout
+Make sure to register your loadout by adding this line at the bottom of your loadout file:
+```lua
+NVGBASE.Register("loadout_name", YOUR_LOADOUT_TABLE);
 ```
 
 ## API
