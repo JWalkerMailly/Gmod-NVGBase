@@ -80,3 +80,18 @@ An API ships with this addon to aid developers in interacting with the NVG Base.
 > *If you are comparing against this value, simply check that CurTime() is greater for "can switch".*
 >
 >> Returns the next time the goggle and be switched.
+
+### ![shared](images/shared.png?raw=true "shared") **player:NVGBASE_GetLoadout()**
+>
+> *Utility function to retreive a player's current NVG loadout.*
+>
+>> Returns full loadout table. Can be used to access all the settings of the current loadout.
+
+### ![shared](images/shared.png?raw=true "shared") **player:NVGBASE_SetLoadout(loadoutName)**
+>
+> *Set which NVG loadout the player should use.*
+>
+>> Parameters:
+>> | Name | Type | Description |
+>> |---|---|---|
+>> | loadoutName | string | The loadout to use. This is the key name of a registered loadout. |
