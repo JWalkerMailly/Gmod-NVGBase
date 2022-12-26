@@ -133,7 +133,8 @@ TEMPLATE.Goggles[1] = {
 
 	OffscreenRendering = function(self, texture)
 		-- * self refers this goggle table.
-		-- * texture is a full screen material of the player's view before any processing. Useful for UV effects.
+		-- * texture is a full screen material of the player's view before any processing. 
+		--   Useful for UV effects.
 	end
 };
 
