@@ -170,7 +170,7 @@ NVGBASE_WHITELIST 0|1
 When the whitelist if turned off, any goggle from the player's loadout can be used by his player model.
 
 ## API
-An API ships with this addon to aid developers in interacting with the NVG Base. Here is a list of all available endpoints.
+An API ships with this addon to aid developers in interacting with the NVG Base. Here is a list of all available endpoints. To view the raw API, see this link: https://github.com/JWalkerMailly/Gmod-NVGBase/blob/main/lua/autorun/nvgbase_api.lua
 
 ### ![NVGBASE_IsWhitelistOn](images/shared.png) **_G:NVGBASE_IsWhitelistOn()**
 >
