@@ -9,10 +9,10 @@ Modular base for developers to create Night Vision Goggles for Gmod. Features a 
 
 ## Controls
 Controls are defined with clientside ConVars. Users can define their own in the console with the following commands:
-| Command | Values | Description |
-|---|---|---|
-| NVGBASE_INPUT | 1 to 159 | Key used to toggle goggle. Refer to this page for the values: https://wiki.facepunch.com/gmod/Enums/KEY |
-| NVGBASE_CYCLE | 1 to 159 | Key used to switch goggle. Refer to this page for the values: https://wiki.facepunch.com/gmod/Enums/KEY |
+| Command | Default | Values | Description |
+|---|---|---|---|
+| NVGBASE_INPUT | 24 (KEY_N) | 1 to 159 | Key used to toggle goggle. Refer to this page for the values: https://wiki.facepunch.com/gmod/Enums/KEY |
+| NVGBASE_CYCLE | 23 (KEY_M) | 1 to 159 | Key used to switch goggle. Refer to this page for the values: https://wiki.facepunch.com/gmod/Enums/KEY |
 
 ## Loadouts
 
@@ -37,7 +37,20 @@ An API ships with this addon to aid developers in interacting with the NVG Base.
 > *Determine if an entity is visible by the player.*
 >
 >> Parameters:
->> - **target**: The entity to test.
->> - **maxDistance**: Max test distance in hammer units.
+>> | Name | Type | Description |
+>> |---|---|---|
+>> | target | entity | The entity to test. |
+>> | maxDistance | int | Max test distance in hammer units. |
 >
 >> Returns true if visible, false otherwise.
+
+### ![shared](images/shared.png?raw=true "shared") **player:NVGBASE_AnimGoggle(gogglesActive, anim, bodygroup, on, off)**
+>
+> *Utility function to animate playermodel. Can also be used to change playermodel bodygroup.*
+>
+>> Parameters:
+>> - **gogglesActive**: 
+>> - **anim**: The entity to test.
+>> - **bodygroup**: The entity to test.
+>> - **on**: The entity to test.
+>> - **off**: The entity to test.
