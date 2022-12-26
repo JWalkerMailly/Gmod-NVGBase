@@ -4,10 +4,11 @@ Modular base for developers to create Night Vision Goggles for Gmod. Features a 
 https://github.com/JWalkerMailly/SplinterCellNVG
 
 ### Table of contents
-0. Getting Started
-1. Controls
-2. Loadouts
-3. Whitelist
+1. Getting Started
+2. Controls
+	1. Commands
+	2. Whitelist
+3. Loadouts
 4. API
 
 ## Getting Started
@@ -42,6 +43,13 @@ It is possible for the server admins to dictate which loadout should be used on 
 | NVGBASE_GAMEMODELOADOUT | String, name of loadout | **admin** Set loadout on all players. This will also change the default loadout. |
 | NVGBASE_PLAYERLOADOUT | String, name of loadout | Choose loadout. It is possible to print a list of available loadouts using the command NVGBASE_SHOWLOADOUTS. |
 | NVGBASE_SHOWLOADOUTS | none | Print a list of available loadouts to console. |
+
+### Whitelist
+The playermodel whitelist can be turned on or off globally by an administrator of the server. To do so, use the following command (off by default):
+```
+NVGBASE_WHITELIST 0|1
+```
+When the whitelist if turned off, any goggle from the player's loadout can be used by his player model.
 
 ## Loadouts
 Loadout configurations need to be defined inside a lua file inside a folder named *nvgloadouts*. If you are creating an addon, this should be your folder structure:
@@ -180,13 +188,6 @@ TEMPLATE.Goggles[2] = {}
 -- Register the loadout.
 NVGBASE.Register("loadout_name", TEMPLATE);
 ```
-
-## Whitelist
-The playermodel whitelist can be turned on or off globally by an administrator of the server. To do so, use the following command (off by default):
-```
-NVGBASE_WHITELIST 0|1
-```
-When the whitelist if turned off, any goggle from the player's loadout can be used by his player model.
 
 ## API
 An API ships with this addon to aid developers in interacting with the NVG Base. Here is a list of all available endpoints. To view the raw API, see this link: https://github.com/JWalkerMailly/Gmod-NVGBase/blob/main/lua/autorun/nvgbase_api.lua
