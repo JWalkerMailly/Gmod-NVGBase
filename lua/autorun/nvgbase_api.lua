@@ -229,21 +229,25 @@ end
 --!
 function _player:NVGBASE_SwitchToNextGoggle(loadout)
 
+	local function loop(current)
+		current = current + 1;
+		if (current > #loadout.Goggles) then current = 1; end
+		return current;
+	end
+
 	local current = self:GetNWInt("NVGBASE_CURRENT_GOGGLE", 1);
 	self:SetNWInt("NVGBASE_LAST_GOGGLE", current);
 
 	if (!_G:NVGBASE_IsWhitelistOn()) then
 
 		-- Whitelist mode is not on, cycle through all the goggles normally.
-		current = current + 1;
-		if (current > #loadout.Goggles) then current = 1; end
+		current = loop(current);
 		self:SetNWInt("NVGBASE_CURRENT_GOGGLE", current);
 		self:SetNWFloat("NVGBASE_NEXT_SWITCH", CurTime() + loadout.Settings.Transition.Switch);
 	else
 
 		-- Find next valid goggle.
-		current = current + 1;
-		if (current > #loadout.Goggles) then current = 1; end
+		current = loop(current);
 		while (current != self:GetNWInt("NVGBASE_CURRENT_GOGGLE", 1)) do
 
 			-- Fetch the next goggle according to the whitelist.
@@ -254,8 +258,7 @@ function _player:NVGBASE_SwitchToNextGoggle(loadout)
 			end
 
 			-- Loop back around if we have gone past the last goggle.
-			current = current + 1;
-			if (current > #loadout.Goggles) then current = 1; end
+			current = loop(current);
 		end
 	end
 end
