@@ -27,5 +27,6 @@ When the whitelist if turned off, any goggle from the player's loadout can be us
 An API ships with this addon to aid developers in interacting with the NVG Base. Here is a list of all available features.
 
 > **_G:NVGBASE_IsWhitelistOn()**
+>
 > *Determine if player whitelisting is active on the server.*
 >> Returns true if active, false otherwise.
