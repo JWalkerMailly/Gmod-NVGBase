@@ -121,3 +121,25 @@ An API ships with this addon to aid developers in interacting with the NVG Base.
 >> | Name | Type | Description |
 >> |---|---|---|
 >> | loadout | table | Player's current loadout table. |
+
+### ![shared](images/shared.png?raw=true "shared") **player:NVGBASE_CanToggleGoggle(key)**
+>
+> *Utility function to determine if the player can toggle their goggles. If no key is provided, will only take into account timing since last toggle.*
+>
+>> Parameters:
+>> | Name | Type | Description |
+>> |---|---|---|
+>> | key | enum | **optional** Key input to test. Useful when used inside a player input hook. |
+>
+>> Returns true if can toggle, false otherwise.
+
+### ![shared](images/shared.png?raw=true "shared") **player:NVGBASE_CanSwitchGoggle(key)**
+>
+> *Utility function to determine if the player can switch their goggles. If no key is provided, will only take into account timing since last switch.*
+>
+>> Parameters:
+>> | Name | Type | Description |
+>> |---|---|---|
+>> | key | enum | **optional** Key input to test. Useful when used inside a player input hook. |
+>
+>> Returns true if can switch, false otherwise.
