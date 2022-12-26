@@ -47,7 +47,7 @@ It is possible for the server admins to dictate which loadout should be used on 
 | NVGBASE_SHOWLOADOUTS | none | Print a list of available loadouts to console. |
 
 ### Whitelist
-The playermodel whitelist can be turned on or off globally by an administrator of the server. To do so, use the following command (off by default):
+The playermodel whitelist is a way of restricting loadout goggles to certain playermodels. This feature is useful for gamemodes. The whitelist can be turned on or off globally by an administrator of the server. To do so, use the following command (off by default):
 ```
 NVGBASE_WHITELIST 0|1
 ```
