@@ -138,11 +138,9 @@ TEMPLATE.Goggles[1] = {
 	end
 };
 
--- Register the loadout. Line is commented to avoid adding it to the real loadout cache.
+-- Register the loadout.
 NVGBASE_LOADOUTS.Register("loadout_name", TEMPLATE);
 ```
-
-
 
 ## Whitelist
 The whitelist can be turned on or off globally by an administrator of the server. To do so, use the following command:
