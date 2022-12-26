@@ -128,10 +128,12 @@ TEMPLATE.Goggles[1] = {
 	},
 
 	PostProcess = function(self)
+		-- Set to nil if you are not doing postprocessing.
 		-- * self refers this goggle table.
 	end,
 
 	OffscreenRendering = function(self, texture)
+		-- Set to nil if you are not doing offscreen rendering.
 		-- * self refers this goggle table.
 		-- * texture is a full screen material of the player's view before any processing. 
 		--   Useful for UV effects.
