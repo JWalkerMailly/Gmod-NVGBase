@@ -23,7 +23,7 @@ your_addon/lua/nvgloadouts/your_loadout.lua
 ```
 
 ### Loadout template file
-Here is the structure of a loadout:
+Here is the structure of a loadout, this is not a tutorial, it is simply a reference template file. If you are looking for a more in depth example of what is possible with this base, please see the following project as reference: https://github.com/JWalkerMailly/SplinterCellNVG
 ```lua
 local TEMPLATE = {};
 TEMPLATE.Goggles = {};
