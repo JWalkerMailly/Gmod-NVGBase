@@ -49,8 +49,10 @@ An API ships with this addon to aid developers in interacting with the NVG Base.
 > *Utility function to animate playermodel. Can also be used to change playermodel bodygroup.*
 >
 >> Parameters:
->> - **gogglesActive**: 
->> - **anim**: The entity to test.
->> - **bodygroup**: The entity to test.
->> - **on**: The entity to test.
->> - **off**: The entity to test.
+>> | Name | Type | Description |
+>> |---|---|---|
+>> | gogglesActive | bool | Whether the goggle is active or not. |
+>> | anim | enum | **optional** The anim (ACT) gesture to use to animate the playermodel. Use nil if not animating. |
+>> | bodygroup | int | **optional** The bodygroup ID to modify. Use nil if not changing bodygroup. |
+>> | on | int | The bodygroup's "on" value for the goggles. |
+>> | off | int | The bodygroup's "off" value for the goggles. |
