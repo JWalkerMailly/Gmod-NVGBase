@@ -99,14 +99,14 @@ TEMPLATE.Goggles[1] = {
 	InterlaceColor    = Color(255, 255, 255, 255),
 
 	-- Material to apply to every entity that passes the filter function.
-	MaterialOverride  = nil, -- Should be a string path, not a Material
+	MaterialOverride  = nil, -- Should be a string path or nil, not a Material.
 	Filter = function(ent)
 
 		-- This will be ran for every entity. Return true to override entity's material.
 		return;
 	end,
 
-	-- Goggle sounds table.
+	-- Goggle sounds table. Each sound can be set to nil.
 	Sounds = {
 		Loop      = nil, -- Plays continuously, must be a looping sound.
 		ToggleOn  = nil, -- Played once when toggling on.
@@ -116,6 +116,7 @@ TEMPLATE.Goggles[1] = {
 
 	-- Lighting example. Dynamic lights are expensive and should be small.
 	-- This is better suited for illuminating your viewmodel rather than the world itself.
+	-- Set to nil if not using.
 	Lighting = {
 		Color      = Color(25, 25, 25),
 		Min        = 0,
@@ -127,7 +128,7 @@ TEMPLATE.Goggles[1] = {
 	},
 
 	-- Projected texture example. Use this to illuminate the world rather
-	-- than the lighting table as it yields better results.
+	-- than the lighting table as it yields better results. Set to nil if not using.
 	ProjectedTexture = {
 		FOV        = 140,
 		VFOV       = 100,
@@ -135,7 +136,7 @@ TEMPLATE.Goggles[1] = {
 		Distance   = 2500
 	},
 
-	-- Photosensitive influences the goggles light sensitivity.
+	-- Photosensitive influences the goggles light sensitivity. Set to nil if not using.
 	PhotoSensitive = 0.9,
 
 	-- Color correction example.
