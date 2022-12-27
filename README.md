@@ -181,6 +181,12 @@ TEMPLATE.Goggles[1] = {
 		-- * self refers this goggle table.
 		-- * texture is a full screen material of the player's view before any processing. 
 		--   Useful for UV effects.
+	end,
+
+	PreDrawOpaque = function(self)
+		-- Set to nil if you are not doing opaque effects
+		-- * self refers this goggle table.
+		-- This hook should be used to affect entity render modes, etc.
 	end
 };
 
