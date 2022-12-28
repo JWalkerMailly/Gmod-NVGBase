@@ -15,7 +15,7 @@ https://github.com/JWalkerMailly/SplinterCellNVG
 
 ## Getting Started
 Please note that this addon is simply a base. Nevertheless, here are the required steps to get everything working:
-1. Download a NVG Loadout addon to use with this base.
+1. Download a NVG Loadout addon to use with this base. Recommended: https://steamcommunity.com/sharedfiles/filedetails/?id=2907238445
 2. Once installed, run this command:
 ```
 NVGBASE_SHOWLOADOUTS
