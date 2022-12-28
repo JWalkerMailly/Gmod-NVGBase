@@ -4,23 +4,20 @@ local entity = FindMetaTable("Entity");
 local color  = FindMetaTable("Color");
 
 -- Server side whitelist convar.
-if (SERVER) then
+CreateConVar("NVGBASE_WHITELIST", "0", { FCVAR_ARCHIVE, FCVAR_CHEAT, FCVAR_REPLICATED });
+CreateConVar("NVGBASE_ALLOWPLAYERLOADOUT", "0", { FCVAR_ARCHIVE, FCVAR_CHEAT, FCVAR_REPLICATED });
 
-	CreateConVar("NVGBASE_WHITELIST", "0", { FCVAR_ARCHIVE, FCVAR_CHEAT });
-	CreateConVar("NVGBASE_ALLOWPLAYERLOADOUT", "0", { FCVAR_ARCHIVE, FCVAR_CHEAT });
+-- Admin console command to define the gamemode loadout on the fly.
+CreateConVar("NVGBASE_DEFAULTLOADOUT", "", { FCVAR_ARCHIVE, FCVAR_CHEAT, FCVAR_REPLICATED });
+concommand.Add("NVGBASE_GAMEMODELOADOUT", function(ply, cmd, args)
 
-	-- Admin console command to define the gamemode loadout on the fly.
-	CreateConVar("NVGBASE_DEFAULTLOADOUT", "", { FCVAR_ARCHIVE, FCVAR_CHEAT });
-	concommand.Add("NVGBASE_GAMEMODELOADOUT", function(ply, cmd, args)
+	if (args[1] == nil) then return; end
 
-		if (args[1] == nil) then return; end
-
-		GetConVar("NVGBASE_DEFAULTLOADOUT"):SetString(args[1]);
-		for k,v in pairs(player.GetAll()) do
-			v:NVGBASE_SetLoadout(args[1]);
-		end
-	end, nil, nil, FCVAR_CHEAT);
-end
+	GetConVar("NVGBASE_DEFAULTLOADOUT"):SetString(args[1]);
+	for k,v in pairs(player.GetAll()) do
+		v:NVGBASE_SetLoadout(args[1]);
+	end
+end, nil, nil, FCVAR_CHEAT);
 
 -- Show all available NVG loadouts.
 concommand.Add("NVGBASE_SHOWLOADOUTS", function(ply, cmd, args)
