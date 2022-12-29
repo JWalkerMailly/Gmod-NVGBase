@@ -109,6 +109,7 @@ function entity:NVGBASE_SaveRenderingSettings()
 		self.NVGBASE_RENDEROVERRIDE = true;
 		self.NVGBASE_OldColor = self:GetColor();
 		self.NVGBASE_OldRenderMode = self:GetRenderMode();
+		self.NVGBASE_OldRenderFX = self:GetRenderFX();
 	end
 end
 
@@ -118,6 +119,7 @@ end
 function entity:NVGBASE_ResetRenderingSettings()
 	self:SetColor(self.NVGBASE_OldColor);
 	self:SetRenderMode(self.NVGBASE_OldRenderMode);
+	self:SetRenderFX(self.NVGBASE_OldRenderFX);
 end
 
 --!
