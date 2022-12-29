@@ -313,6 +313,7 @@ hook.Add("HUDPaintBackground", "NVGBASE_HUD", function()
 			-- Stop looping sound of previous goggles and cleanup materials.
 			local previousConfig = loadout.Goggles[NVGBASE_GOGGLES.CurrentGoggles];
 			NVGBASE_GOGGLES:CleanupMaterials();
+			NVGBASE_GOGGLES:CleanupPreDrawOpaques();
 			NVGBASE_GOGGLES:StopLoopingSound(previousConfig, 0.5);
 
 			-- Play goggle mode switch sound only clientside and start looping sound.
@@ -432,9 +433,13 @@ hook.Add("PreDrawOpaqueRenderables", "NVGBASE_PREDRAW", function(depth, sky, sky
 	if (toggle) then
 
 		-- Handle predraw opaques according to current goggle config.
-		if (currentConfig.PreDrawOpaque != nil && CurTime() > NVGBASE_GOGGLES.NextTransition) then
-			currentConfig.PreDrawOpaque(currentConfig);
-			NVGBASE_GOGGLES.ShouldCleanupPreDrawOpaques = true;
+		if (currentConfig.PreDrawOpaque != nil) then
+			if (CurTime() > NVGBASE_GOGGLES.NextTransition) then
+				currentConfig.PreDrawOpaque(currentConfig);
+				NVGBASE_GOGGLES.ShouldCleanupPreDrawOpaques = true;
+			end
+		else
+			NVGBASE_GOGGLES:CleanupPreDrawOpaques();
 		end
 	else
 		NVGBASE_GOGGLES:CleanupPreDrawOpaques();
