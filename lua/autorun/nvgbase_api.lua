@@ -189,6 +189,8 @@ end
 --!             the name of the loadout registered in the cache. 
 --!
 function _player:NVGBASE_SetLoadout(loadoutName)
+	self:SetNWInt("NVGBASE_LAST_GOGGLE", 1);
+	self:SetNWInt("NVGBASE_CURRENT_GOGGLE", 1);
 	self:SetNWString("NVGBASE_LOADOUT", loadoutName);
 end
 
