@@ -213,6 +213,16 @@ An API ships with this addon to aid developers in interacting with the NVG Base.
 >> #### Returns:
 >> true if active, false otherwise.
 
+### ![NVGBASE_SaveRenderingSettings](images/shared.png) **entity:NVGBASE_SaveRenderingSettings()**
+>
+> *Utility function to save an entity's Color, RenderMode and RenderFX properties. Useful when you are about to modify an entity's render properties. This function can be called every frame as it won't continuously write data. Data is written once and any subsequent calls will be skipped for easy integration.*
+>
+
+### ![NVGBASE_ResetRenderingSettings](images/shared.png) **entity:NVGBASE_ResetRenderingSettings()**
+>
+> *Utility function to reset an entity's render properties. This is used in conjunction with NVGBASE_SaveRenderingSettings(). The framework will reset an entity's render settings for you but this function is available if you wish to perform more complex render operations.*
+>
+
 ### ![NVGBASE_IsBoundingBoxVisible](images/shared.png) **player:NVGBASE_IsBoundingBoxVisible( target, maxDistance )**
 >
 > *Determine if an entity is visible by the player.*
