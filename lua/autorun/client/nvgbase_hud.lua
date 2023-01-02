@@ -1,6 +1,7 @@
 
 -- This acts like a static class.
 NVGBASE_GOGGLES = {};
+NVGBASE_GOGGLES.PreDrawReady = false;
 NVGBASE_GOGGLES.SoundsCacheReady = false;
 
 -- Toggle flags used to switch animation states.
@@ -65,6 +66,7 @@ function NVGBASE_GOGGLES:CleanupPreDrawOpaques()
 
 	-- Cleanup finished, reset flag to avoid using unnecessary CPU time.
 	self.ShouldCleanupPreDrawOpaques = false;
+	self.PreDrawReady = false;
 end
 
 --!
@@ -324,6 +326,9 @@ hook.Add("HUDPaintBackground", "NVGBASE_HUD", function()
 
 		if (CurTime() > NVGBASE_GOGGLES.NextTransition) then
 
+			-- Raise pre draw opaque flag.
+			NVGBASE_GOGGLES.PreDrawReady = true;
+
 			-- Do offscreen rendering now before any processing occurs.
 			if (currentConfig.OffscreenRendering != nil) then
 				NVGBASE_GOGGLES:PrepareOffScreenRendering();
@@ -400,6 +405,7 @@ hook.Add("HUDPaintBackground", "NVGBASE_HUD", function()
 
 		-- Restore default materials on entities.
 		NVGBASE_GOGGLES:CleanupMaterials();
+		NVGBASE_GOGGLES:CleanupPreDrawOpaques();
 		NVGBASE_GOGGLES:StopLoopingSound(currentConfig, 0);
 
 		-- Remove projected texture.
@@ -434,7 +440,7 @@ hook.Add("PreDrawOpaqueRenderables", "NVGBASE_PREDRAW", function(depth, sky, sky
 
 		-- Handle predraw opaques according to current goggle config.
 		if (currentConfig.PreDrawOpaque != nil) then
-			if (CurTime() > NVGBASE_GOGGLES.NextTransition) then
+			if (NVGBASE_GOGGLES.PreDrawReady) then
 				currentConfig.PreDrawOpaque(currentConfig);
 				NVGBASE_GOGGLES.ShouldCleanupPreDrawOpaques = true;
 			end
