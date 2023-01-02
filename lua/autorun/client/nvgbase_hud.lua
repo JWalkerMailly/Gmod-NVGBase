@@ -430,14 +430,9 @@ hook.Add("PreDrawOpaqueRenderables", "NVGBASE_PREDRAW", function(depth, sky, sky
 	local currentGoggle = LocalPlayer():GetNWInt("NVGBASE_CURRENT_GOGGLE", 1);
 	if (currentGoggle == 0) then return; end
 
-	-- Initializes the looping sound cache.
 	local loadout = LocalPlayer():NVGBASE_GetLoadout();
 	if (loadout == nil) then return; end
-
-	-- This is gets clientside to handle animations and sounds.
 	local toggle = GetConVar("NVGBASE_TOGGLE"):GetBool();
-
-	-- Delegate call to the configuration file for which goggle to render.
 	local currentConfig = loadout.Goggles[currentGoggle];
 	if (toggle) then
 
@@ -461,17 +456,12 @@ hook.Add("PreDrawHalos", "NVGBASE_PREDRAWHALOS", function()
 	local currentGoggle = LocalPlayer():GetNWInt("NVGBASE_CURRENT_GOGGLE", 1);
 	if (currentGoggle == 0) then return; end
 
-	-- Initializes the looping sound cache.
 	local loadout = LocalPlayer():NVGBASE_GetLoadout();
 	if (loadout == nil) then return; end
-
-	-- This is gets clientside to handle animations and sounds.
 	local toggle = GetConVar("NVGBASE_TOGGLE"):GetBool();
-
-	-- Delegate call to the configuration file for which goggle to render.
 	local currentConfig = loadout.Goggles[currentGoggle];
 
-	-- Handle predraw opaques according to current goggle config.
+	-- Handle predraw halos according to current goggle config.
 	if (toggle && currentConfig.PreDrawHalos != nil && NVGBASE_GOGGLES.PreDrawHaloReady) then
 		currentConfig.PreDrawHalos(currentConfig);
 	end
