@@ -3,6 +3,7 @@
 NVGBASE_GOGGLES = {};
 NVGBASE_GOGGLES.PreDrawReady = false;
 NVGBASE_GOGGLES.SoundsCacheReady = false;
+NVGBASE_GOGGLES.PreDrawHaloReady = false;
 
 -- Toggle flags used to switch animation states.
 NVGBASE_GOGGLES.Toggled = nil;
@@ -328,6 +329,7 @@ hook.Add("HUDPaintBackground", "NVGBASE_HUD", function()
 
 			-- Raise pre draw opaque flag.
 			NVGBASE_GOGGLES.PreDrawReady = true;
+			NVGBASE_GOGGLES.PreDrawHaloReady = true;
 
 			-- Do offscreen rendering now before any processing occurs.
 			if (currentConfig.OffscreenRendering != nil) then
@@ -407,6 +409,7 @@ hook.Add("HUDPaintBackground", "NVGBASE_HUD", function()
 		NVGBASE_GOGGLES:CleanupMaterials();
 		NVGBASE_GOGGLES:CleanupPreDrawOpaques();
 		NVGBASE_GOGGLES:StopLoopingSound(currentConfig, 0);
+		NVGBASE_GOGGLES.PreDrawHaloReady = false;
 
 		-- Remove projected texture.
 		if (IsValid(NVGBASE_GOGGLES.ProjectedTexture)) then
@@ -449,5 +452,27 @@ hook.Add("PreDrawOpaqueRenderables", "NVGBASE_PREDRAW", function(depth, sky, sky
 		end
 	else
 		NVGBASE_GOGGLES:CleanupPreDrawOpaques();
+	end
+end);
+
+hook.Add("PreDrawHalos", "NVGBASE_PREDRAWHALOS", function()
+
+	-- This is the autoload logic for the network var. Network vars will be handled serverside.
+	local currentGoggle = LocalPlayer():GetNWInt("NVGBASE_CURRENT_GOGGLE", 1);
+	if (currentGoggle == 0) then return; end
+
+	-- Initializes the looping sound cache.
+	local loadout = LocalPlayer():NVGBASE_GetLoadout();
+	if (loadout == nil) then return; end
+
+	-- This is gets clientside to handle animations and sounds.
+	local toggle = GetConVar("NVGBASE_TOGGLE"):GetBool();
+
+	-- Delegate call to the configuration file for which goggle to render.
+	local currentConfig = loadout.Goggles[currentGoggle];
+
+	-- Handle predraw opaques according to current goggle config.
+	if (toggle && currentConfig.PreDrawHalos != nil && NVGBASE_GOGGLES.PreDrawHaloReady) then
+		currentConfig.PreDrawHalos(currentConfig);
 	end
 end);

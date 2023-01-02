@@ -187,6 +187,13 @@ TEMPLATE.Goggles[1] = {
 		-- Set to nil if you are not doing opaque effects
 		-- * self refers this goggle table.
 		-- This hook should be used to affect entity render modes, etc.
+	end,
+
+	PreDrawHalos = function(self)
+		-- Set to nil if you are not doing halo effects.
+		-- * self refers this goggle table.
+		-- This hook should be used to draw halos around entities, for more info:
+		-- https://wiki.facepunch.com/gmod/halo.Add
 	end
 };
 
