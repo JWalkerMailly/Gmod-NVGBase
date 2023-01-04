@@ -156,7 +156,7 @@ end
 function _player:NVGBASE_SetLoadout(loadoutName)
 	self:SetNWInt("NVGBASE_LAST_GOGGLE", 1);
 	self:SetNWInt("NVGBASE_CURRENT_GOGGLE", 1);
-	self:ConCommand("NVGBASE_LOADOUT \"" .. loadoutName .. "\n");
+	self:ConCommand("NVGBASE_LOADOUT \"" .. loadoutName .. "\"");
 end
 
 --!
