@@ -114,7 +114,7 @@ function _player:NVGBASE_GetGoggleSwitchKey()
 end
 
 --!
---! @return     Returns the next time the goggle and be toggled. If you are comparing against
+--! @return     Returns the next time the goggle can be toggled. If you are comparing against
 --!             this value, simply check that CurTime() is greater for "can toggle".
 --!
 function _player:NVGBASE_GetNextToggleTime()
@@ -122,7 +122,7 @@ function _player:NVGBASE_GetNextToggleTime()
 end
 
 --!
---! @return     Returns the next time the goggle and be switched. If you are comparing against
+--! @return     Returns the next time the goggle can be switched. If you are comparing against
 --!             this value, simply check that CurTime() is greater for "can switch".
 --!
 function _player:NVGBASE_GetNextSwitchTime()
@@ -137,7 +137,12 @@ end
 --! @return     The name (key) of the current loadout.
 --!
 function _player:NVGBASE_GetLoadout()
-	local loadout = self:GetNWString("NVGBASE_LOADOUT", GetConVar("NVGBASE_DEFAULTLOADOUT"):GetString());
+
+	local loadout = self:GetInfo("NVGBASE_LOADOUT");
+	if (loadout == nil || loadout == "" || !GetConVar("NVGBASE_ALLOWPLAYERLOADOUT"):GetBool()) then
+		loadout = GetConVar("NVGBASE_DEFAULTLOADOUT"):GetString();
+	end
+
 	if (loadout == "") then return nil; end
 	return NVGBASE.Loadouts[loadout];
 end
@@ -151,7 +156,7 @@ end
 function _player:NVGBASE_SetLoadout(loadoutName)
 	self:SetNWInt("NVGBASE_LAST_GOGGLE", 1);
 	self:SetNWInt("NVGBASE_CURRENT_GOGGLE", 1);
-	self:SetNWString("NVGBASE_LOADOUT", loadoutName);
+	self:ConCommand("NVGBASE_LOADOUT \"" .. loadoutName .. "\n");
 end
 
 --!

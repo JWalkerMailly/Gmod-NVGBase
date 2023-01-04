@@ -9,7 +9,8 @@ CreateConVar("NVGBASE_DEFAULTLOADOUT", "",      { FCVAR_ARCHIVE, FCVAR_CHEAT, FC
 -- * KEY_M (23): Cycle goggle.
 CreateClientConVar("NVGBASE_INPUT", "24", true, true, "Which key to toggle goggle. Must be a number, refer to: https://wiki.facepunch.com/gmod/Enums/KEY.", 1, 159);
 CreateClientConVar("NVGBASE_CYCLE", "23", true, true, "Which key to cycle goggle. Must be a number, refer to: https://wiki.facepunch.com/gmod/Enums/KEY.",  1, 159);
-CreateClientConVar("NVGBASE_TOGGLE", "0", false, true);
+CreateClientConVar("NVGBASE_TOGGLE", "0", false, true, "Internal only, you should use +NVGBASE_TOGGLE instead.");
+CreateClientConVar("NVGBASE_LOADOUT", "", true, true, "Internal only, you should use NVGBASE_PLAYERLOADOUT instead.");
 
 -- Admin console command for setting the gamemode's NVG loadout.
 concommand.Add("NVGBASE_GAMEMODELOADOUT", function(ply, cmd, args)
