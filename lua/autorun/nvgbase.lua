@@ -1,4 +1,80 @@
 
+-- Admin ConVars for whitelist and player loadouts.
+CreateConVar("NVGBASE_WHITELIST", "0",          { FCVAR_ARCHIVE, FCVAR_CHEAT, FCVAR_REPLICATED });
+CreateConVar("NVGBASE_ALLOWPLAYERLOADOUT", "0", { FCVAR_ARCHIVE, FCVAR_CHEAT, FCVAR_REPLICATED });
+CreateConVar("NVGBASE_DEFAULTLOADOUT", "",      { FCVAR_ARCHIVE, FCVAR_CHEAT, FCVAR_REPLICATED });
+
+-- Setup player convars to determine which key to use for the goggles. By default:
+-- * KEY_N (24): Toggle goggle.
+-- * KEY_M (23): Cycle goggle.
+CreateClientConVar("NVGBASE_INPUT", "24", true, true, "Which key to toggle goggle. Must be a number, refer to: https://wiki.facepunch.com/gmod/Enums/KEY.", 1, 159);
+CreateClientConVar("NVGBASE_CYCLE", "23", true, true, "Which key to cycle goggle. Must be a number, refer to: https://wiki.facepunch.com/gmod/Enums/KEY.",  1, 159);
+CreateClientConVar("NVGBASE_TOGGLE", "0", false, true);
+
+-- Admin console command for setting the gamemode's NVG loadout.
+concommand.Add("NVGBASE_GAMEMODELOADOUT", function(ply, cmd, args)
+
+	if (args[1] == nil) then return; end
+
+	GetConVar("NVGBASE_DEFAULTLOADOUT"):SetString(args[1]);
+	for k,v in pairs(player.GetAll()) do
+		v:NVGBASE_SetLoadout(args[1]);
+	end
+end, nil, nil, FCVAR_CHEAT);
+
+-- Player console command to show all available NVG loadouts.
+concommand.Add("NVGBASE_SHOWLOADOUTS", function(ply, cmd, args)
+
+	for k,v in pairs(NVGBASE.Loadouts) do
+		print(k);
+	end
+end, nil, nil, 0);
+
+-- Player console command to define the loadout on the fly.
+concommand.Add("NVGBASE_PLAYERLOADOUT", function(ply, cmd, args)
+
+	if (args[1] == nil || ply == NULL || !GetConVar("NVGBASE_ALLOWPLAYERLOADOUT"):GetBool()) then return; end
+	ply:NVGBASE_SetLoadout(args[1]);
+end, nil, nil, 0);
+
+-- Player console command to toggle the goggles on from the console.
+concommand.Add("+NVGBASE_TOGGLE", function(ply, cmd, args)
+
+	-- Do nothing if executing from the server's console.
+	if (ply == NULL) then return; end
+
+	-- Do nothing if the player is not using a loadout at the moment.
+	local loadout = ply:NVGBASE_GetLoadout();
+	if (loadout == nil) then return; end
+
+	-- Toggle goggle.
+	if (args[1] != nil && isnumber(tonumber(args[1]))) then
+		ply:NVGBASE_ToggleGoggleAnim(loadout, nil, args[1]);
+	else
+		ply:NVGBASE_ToggleGoggleAnim(loadout, nil);
+	end
+end, nil, nil, 0);
+
+-- Player console command to switch the goggles from the console.
+concommand.Add("+NVGBASE_SWITCH", function(ply, cmd, args)
+
+	-- Do nothing if executing from the server's console.
+	if (ply == NULL) then return; end
+
+	-- Do nothing if the player is not using a loadout at the moment.
+	local loadout = ply:NVGBASE_GetLoadout();
+	if (loadout == nil) then return; end
+
+	-- Switch goggle.
+	if (ply:NVGBASE_CanSwitchGoggle()) then
+		if (args[1] != nil && isnumber(tonumber(args[1]))) then
+			ply:NVGBASE_SwitchToNextGoggle(loadout, args[1]);
+		else
+			ply:NVGBASE_SwitchToNextGoggle(loadout);
+		end
+	end
+end, nil, nil, 0);
+
 if (SERVER) then
 	util.AddNetworkString("NVGBASE_TOGGLE_ANIM");
 end
@@ -14,20 +90,20 @@ net.Receive("NVGBASE_TOGGLE_ANIM", function()
 		return int;
 	end
 
-	local player = net.ReadEntity();
+	local ply = net.ReadEntity();
 	local gogglesActive = net.ReadBool();
 	local anim = cast(net.ReadInt(14));
 	local bodygroup = cast(net.ReadInt(14));
 	local bodygroupOn = cast(net.ReadInt(14));
 	local bodygroupOff = cast(net.ReadInt(14));
 
-	player:NVGBASE_AnimGoggle(gogglesActive, anim, bodygroup, bodygroupOn, bodygroupOff);
+	ply:NVGBASE_AnimGoggle(gogglesActive, anim, bodygroup, bodygroupOn, bodygroupOff);
 end);
 
 --! 
 --! Main input entry point for the goggles. Will process the toggle and cycle key.
 --!
-hook.Add("PlayerButtonDown", "NVGBASE_INPUT", function(player, button)
+hook.Add("PlayerButtonDown", "NVGBASE_INPUT", function(ply, button)
 
 	-- Server only code. PlayerButtonDown is not called clientside in singleplayer. It is
 	-- simpler and cleaner to handle everything server-side and do network calls ourselves
@@ -35,63 +111,15 @@ hook.Add("PlayerButtonDown", "NVGBASE_INPUT", function(player, button)
 	if (!SERVER) then return; end
 
 	-- Do nothing if the player is not using a loadout at the moment.
-	local loadout = player:NVGBASE_GetLoadout();
+	local loadout = ply:NVGBASE_GetLoadout();
 	if (loadout == nil) then return; end
 
-	local whitelist = _G:NVGBASE_IsWhitelistOn();
-	local playerWhitelisted = player:NVGBASE_IsWhitelisted(loadout);
-	local gogglesActive = player:NVGBASE_IsGoggleActive();
-
-	-- If whitelist system is on, make sure the player is whitelisted before.
-	-- The only way to bypass the whitelist if it is on, is if the player already has his
-	-- goggles active while his allowed goggles list changed, in that case, we allow to run
-	-- to prevent him getting stuck in his active goggles.
-	if (whitelist && !playerWhitelisted && !gogglesActive) then return; end
-
-	-- Toggle goggle on/off.
-	if (player:NVGBASE_CanToggleGoggle(button)) then
-
-		-- Play toggle animation. Playermodel must be whitelisted even if whitelist is off.
-		if (loadout.Settings.Gestures != nil && playerWhitelisted) then
-
-			local anim = loadout.Settings.Gestures;
-			local bodygroup = loadout.Settings.BodyGroups;
-			local bodygroupOn = nil;
-			local bodygroupOff = nil;
-
-			-- Loadout uses animations.
-			if (anim != nil) then
-				if (!gogglesActive) then anim = anim.On;
-				else anim = anim.Off; end
-			end
-
-			-- Loadout uses bodygroups.
-			if (bodygroup != nil) then
-				bodygroupOn = bodygroup.Values.On;
-				bodygroupOff = bodygroup.Values.Off;
-				bodygroup = bodygroup.Group;
-			end
-
-			-- Will only play server side.
-			player:NVGBASE_AnimGoggle(gogglesActive, anim, bodygroup, bodygroupOn, bodygroupOff);
-
-			-- Send out net message to play animation on client.
-			net.Start("NVGBASE_TOGGLE_ANIM");
-				net.WriteEntity(player);
-				net.WriteBool(gogglesActive);
-				net.WriteInt(anim || -1, 14);
-				net.WriteInt(bodygroup || -1, 14);
-				net.WriteInt(bodygroupOn || -1, 14);
-				net.WriteInt(bodygroupOff || -1, 14);
-			net.Broadcast();
-		end
-
-		player:NVGBASE_ToggleGoggle(loadout);
-	end
+	-- Process toggle key, if pressed.
+	ply:NVGBASE_ToggleGoggleAnim(loadout, button);
 
 	-- Cycle between different goggle modes.
-	if (player:NVGBASE_CanSwitchGoggle(button)) then
-		player:NVGBASE_SwitchToNextGoggle(loadout);
+	if (ply:NVGBASE_CanSwitchGoggle(button)) then
+		ply:NVGBASE_SwitchToNextGoggle(loadout);
 	end
 end);
 

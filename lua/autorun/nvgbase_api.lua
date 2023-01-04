@@ -1,38 +1,7 @@
 
 local _player = FindMetaTable("Player");
-local entity = FindMetaTable("Entity");
-local color  = FindMetaTable("Color");
-
--- Server side whitelist convar.
-CreateConVar("NVGBASE_WHITELIST", "0", { FCVAR_ARCHIVE, FCVAR_CHEAT, FCVAR_REPLICATED });
-CreateConVar("NVGBASE_ALLOWPLAYERLOADOUT", "0", { FCVAR_ARCHIVE, FCVAR_CHEAT, FCVAR_REPLICATED });
-
--- Admin console command to define the gamemode loadout on the fly.
-CreateConVar("NVGBASE_DEFAULTLOADOUT", "", { FCVAR_ARCHIVE, FCVAR_CHEAT, FCVAR_REPLICATED });
-concommand.Add("NVGBASE_GAMEMODELOADOUT", function(ply, cmd, args)
-
-	if (args[1] == nil) then return; end
-
-	GetConVar("NVGBASE_DEFAULTLOADOUT"):SetString(args[1]);
-	for k,v in pairs(player.GetAll()) do
-		v:NVGBASE_SetLoadout(args[1]);
-	end
-end, nil, nil, FCVAR_CHEAT);
-
--- Show all available NVG loadouts.
-concommand.Add("NVGBASE_SHOWLOADOUTS", function(ply, cmd, args)
-
-	for k,v in pairs(NVGBASE.Loadouts) do
-		print(k);
-	end
-end, nil, nil, 0);
-
--- Player console command to define the loadout on the fly.
-concommand.Add("NVGBASE_PLAYERLOADOUT", function(ply, cmd, args)
-
-	if (args[1] == nil || ply == NULL || !GetConVar("NVGBASE_ALLOWPLAYERLOADOUT"):GetBool()) then return; end
-	ply:NVGBASE_SetLoadout(args[1]);
-end, nil, nil, 0);
+local _entity = FindMetaTable("Entity");
+local _color  = FindMetaTable("Color");
 
 --!
 --! @brief      Utility function to determine if player model whitelisting is on.
@@ -43,15 +12,6 @@ function _G:NVGBASE_IsWhitelistOn()
 	return GetConVar("NVGBASE_WHITELIST"):GetBool();
 end
 
--- Setup convars to determine which key to use for the goggles. By default:
--- * KEY_N (24): Toggle goggle.
--- * KEY_M (23): Cycle goggle.
-CreateClientConVar("NVGBASE_INPUT", "24", true, true, "Which key to toggle goggle. Must be a number, refer to: https://wiki.facepunch.com/gmod/Enums/KEY.", 1, 159);
-CreateClientConVar("NVGBASE_CYCLE", "23", true, true, "Which key to cycle goggle. Must be a number, refer to: https://wiki.facepunch.com/gmod/Enums/KEY.", 1, 159);
-
--- Setup toggle and cycle commands for goggles.
-CreateClientConVar("NVGBASE_TOGGLE", "0", false, true);
-
 --!
 --! @brief      Utility function to lerp a color towards another color table.
 --!
@@ -60,7 +20,7 @@ CreateClientConVar("NVGBASE_TOGGLE", "0", false, true);
 --!
 --! @return     Interpolated result.
 --!
-function color:NVGBASE_LerpColor(t, to)
+function _color:NVGBASE_LerpColor(t, to)
 	return Color(
 		Lerp(t, self.r, to.r),
 		Lerp(t, self.g, to.g),
@@ -95,14 +55,14 @@ end
 --!
 --! @return     Position + OBBCenter.
 --!
-function entity:NVGBASE_GetCenterPos()
+function _entity:NVGBASE_GetCenterPos()
 	return self:GetPos() + self:OBBCenter();
 end
 
 --!
 --! @brief      Utility function to save entity rendering settings for cleanup later.
 --!
-function entity:NVGBASE_SaveRenderingSettings()
+function _entity:NVGBASE_SaveRenderingSettings()
 
 	-- Save rendering options for later.
 	if (self.NVGBASE_RENDEROVERRIDE == nil) then
@@ -116,7 +76,7 @@ end
 --!
 --! @brief      Utility function to reset the entity's rendering settings to defaults.
 --!
-function entity:NVGBASE_ResetRenderingSettings()
+function _entity:NVGBASE_ResetRenderingSettings()
 	self:SetColor(self.NVGBASE_OldColor);
 	self:SetRenderMode(self.NVGBASE_OldRenderMode);
 	self:SetRenderFX(self.NVGBASE_OldRenderFX);
@@ -202,6 +162,74 @@ function _player:NVGBASE_IsGoggleActive()
 end
 
 --!
+--! @brief      Main function used to toggle a player's goggle. Server-side only.
+--!
+--! @param      loadout  The player's current loadout table.
+--! @param      button   The player's toggle button, optional.
+--! @param      override Override current goggle, must be an int, optional.
+--!
+function _player:NVGBASE_ToggleGoggleAnim(loadout, button, override)
+
+	if (!SERVER) then return; end
+
+	local whitelist = _G:NVGBASE_IsWhitelistOn();
+	local playerWhitelisted = self:NVGBASE_IsWhitelisted(loadout);
+	local gogglesActive = self:NVGBASE_IsGoggleActive();
+
+	-- If whitelist system is on, make sure the player is whitelisted before.
+	-- The only way to bypass the whitelist if it is on, is if the player already has his
+	-- goggles active while his allowed goggles list changed, in that case, we allow to run
+	-- to prevent him getting stuck in his active goggles.
+	if (whitelist && !playerWhitelisted && !gogglesActive) then return; end
+
+	-- Toggle goggle on/off.
+	if (self:NVGBASE_CanToggleGoggle(button)) then
+
+		-- Play toggle animation. Playermodel must be whitelisted even if whitelist is off.
+		if (loadout.Settings.Gestures != nil && playerWhitelisted) then
+
+			local anim = loadout.Settings.Gestures;
+			local bodygroup = loadout.Settings.BodyGroups;
+			local bodygroupOn = nil;
+			local bodygroupOff = nil;
+
+			-- Loadout uses animations.
+			if (anim != nil) then
+				if (!gogglesActive) then anim = anim.On;
+				else anim = anim.Off; end
+			end
+
+			-- Loadout uses bodygroups.
+			if (bodygroup != nil) then
+				bodygroupOn = bodygroup.Values.On;
+				bodygroupOff = bodygroup.Values.Off;
+				bodygroup = bodygroup.Group;
+			end
+
+			-- Will only play server side.
+			self:NVGBASE_AnimGoggle(gogglesActive, anim, bodygroup, bodygroupOn, bodygroupOff);
+
+			-- Send out net message to play animation on client.
+			net.Start("NVGBASE_TOGGLE_ANIM");
+				net.WriteEntity(self);
+				net.WriteBool(gogglesActive);
+				net.WriteInt(anim || -1, 14);
+				net.WriteInt(bodygroup || -1, 14);
+				net.WriteInt(bodygroupOn || -1, 14);
+				net.WriteInt(bodygroupOff || -1, 14);
+			net.Broadcast();
+		end
+
+		-- Set override if provided.
+		if (override != nil) then
+			self:SetNWInt("NVGBASE_CURRENT_GOGGLE", tonumber(override));
+		end
+
+		self:NVGBASE_ToggleGoggle(loadout);
+	end
+end
+
+--!
 --! @brief      Utility function to toggle a player's goggles.
 --!
 --! @param      loadout Current loadout being used.
@@ -239,7 +267,10 @@ end
 --!             will switch to the next goggle the user has access to. If whitelisting
 --!             is off, will cycle through all the goggles.
 --!
-function _player:NVGBASE_SwitchToNextGoggle(loadout)
+--! @param      loadout   The player's current loadout table.
+--! @param      override  Goggle override, must be an integer.
+--!
+function _player:NVGBASE_SwitchToNextGoggle(loadout, override)
 
 	local function loop(current)
 		current = current + 1;
@@ -249,6 +280,7 @@ function _player:NVGBASE_SwitchToNextGoggle(loadout)
 
 	local current = self:GetNWInt("NVGBASE_CURRENT_GOGGLE", 1);
 	self:SetNWInt("NVGBASE_LAST_GOGGLE", current);
+	if (override != nil) then current = math.Clamp(override - 1, 0, #loadout.Goggles); end
 
 	if (!_G:NVGBASE_IsWhitelistOn()) then
 

@@ -35,6 +35,13 @@ Controls are defined with clientside ConVars. Users can define their own in the 
 | NVGBASE_INPUT | 24 (KEY_N) | 1 to 159 | Key used to toggle goggle. Refer to this page for the values: https://wiki.facepunch.com/gmod/Enums/KEY |
 | NVGBASE_CYCLE | 23 (KEY_M) | 1 to 159 | Key used to switch goggle. Refer to this page for the values: https://wiki.facepunch.com/gmod/Enums/KEY |
 
+### Impulse Commands
+These commands can be used for easy integration with existing menus.
+| Command | Default | Values | Description |
+|---|---|---|---|
+| +NVGBASE_TOGGLE | none | **optional**: 1 to 99 | Toggle goggles. You can also force a goggle by passing the id as argument. For example, toggle the first goggle; *+NVGBASE_TOGGLE 1*. |
+| +NVGBASE_SWITCH | none | **optional**: 1 to 99 | Switch goggles. You can also force a goggle by passing the id as argument. For example, switch to the first goggle; *+NVGBASE_SWITCH 1*. Requires a goggle to already be toggled. |
+
 ### Console Commands
 It is possible for the server admins to dictate which loadout should be used on the fly, and set rules regarding whether or not a player can choose its own NVG loadout. Here is a list of all console commands available.
 
@@ -318,6 +325,17 @@ An API ships with this addon to aid developers in interacting with the NVG Base.
 >> | silent | bool | Set to true to avoid playing toggle sound, false to play. |
 >> | force | int | **optional** Use to force set the toggle status. 1 for true, 0 for false. |
 
+### ![NVGBASE_ToggleGoggleAnim](images/server.png) **player:NVGBASE_ToggleGoggleAnim( loadout, button, override )**
+>
+> *Utility function used to toggle a player's goggle.*
+>
+>> #### Parameters:
+>> | Name | Type | Description |
+>> |---|---|---|
+>> | loadout | table | Player's current loadout table. |
+>> | button | enum | **optional** Useful in a ButtonDown hook. Will check to see if the button matches the player's defined input. |
+>> | override | int | **optional** Force goggle id onto the player. Must be an integer.  |
+
 ### ![NVGBASE_SwitchToNextGoggle](images/shared.png) **player:NVGBASE_SwitchToNextGoggle( loadout )**
 >
 > *Internal utility function to switch to the next goggle. If whitelisting is on, will switch to the next goggle the user has access to. If whitelisting is off, will cycle through all the goggles.*
@@ -326,6 +344,7 @@ An API ships with this addon to aid developers in interacting with the NVG Base.
 >> | Name | Type | Description |
 >> |---|---|---|
 >> | loadout | table | Player's current loadout table. |
+>> | override | int | **optional** Force goggle id onto the player. Must be an integer.  |
 
 ### ![NVGBASE_CanToggleGoggle](images/shared.png) **player:NVGBASE_CanToggleGoggle( key )**
 >
